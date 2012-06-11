@@ -8,7 +8,7 @@
 
   <groupId>org.scriptkitty</groupId>
   <artifactId>perl-utils</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   
   <name>perl-utils</name>
   <inceptionYear>2012</inceptionYear>
