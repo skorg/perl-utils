@@ -9,13 +9,13 @@
   <groupId>org.scriptkitty</groupId>
   <artifactId>perl-utils</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  
+
   <name>perl-utils</name>
   <inceptionYear>2012</inceptionYear>
 
   <organization>
     <name>scriptkitty.org</name>
-    <url>http://scriptkitty.org</url>
+    <url>http://scriptkitty.org/perl-utils</url>
   </organization>
 
   <licenses>
@@ -25,23 +25,40 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <properties>
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
     <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jar.useDefaultManifestFile>true</jar.useDefaultManifestFile>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
   </properties>
 
   <build>
     <sourceDirectory>${basedir}/src</sourceDirectory>
-    <testSourceDirectory>${basedir}/test</testSourceDirectory>  
+    <testSourceDirectory>${basedir}/test</testSourceDirectory>
     <resources>
       <resource>
         <targetPath>resources</targetPath>
         <directory>${basedir}/src/resources</directory>
       </resource>
-    </resources>   
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <scm>
