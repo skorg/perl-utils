@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: perl-utils
+Bundle-SymbolicName: org.scriptkitty.perl-utils
+Bundle-Vendor: scriptkitty.org
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.scriptkitty.perl.compiler;version="1.0.0";uses:="org.scriptkitty.perl.util",
+ org.scriptkitty.perl.exec;version="1.0.0",
+ org.scriptkitty.perl.lang;version="1.0.0",
+ org.scriptkitty.perl.util;version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Import-Package: org.scriptkitty.perl.compiler;version="1.0.0",
+ org.scriptkitty.perl.exec;version="1.0.0",
+ org.scriptkitty.perl.lang;version="1.0.0",
+ org.scriptkitty.perl.util;version="1.0.0"
