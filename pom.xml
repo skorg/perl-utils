@@ -9,9 +9,17 @@
   <groupId>org.scriptkitty</groupId>
   <artifactId>perl-utils</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
 
   <name>perl-utils</name>
-  <inceptionYear>2012</inceptionYear>
+  <url>http://scriptkitty.org</url>
+  <description>collection of utilities for interacting with perl in java</description>
 
   <organization>
     <name>scriptkitty.org</name>
@@ -26,11 +34,27 @@
     </license>
   </licenses>
 
+  <scm>
+    <url>https://github.com/skorg/perl-utils</url>
+    <connection>scm:git://github.com/skorg/perl-utils.git</connection>
+    <developerConnection>scm:git@github.com:skorg/perl-utils.git</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>jae</id>
+      <name>jae gangemi</name>
+      <email>jgangemi at gmail dot com</email>
+    </developer>
+  </developers>
+
   <properties>
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
     <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- seperator -->
+    <skorg.sb.name>${project.groupId}.${project.artifactId}</skorg.sb.name>
   </properties>
 
   <build>
@@ -42,6 +66,7 @@
         <directory>${basedir}/src/resources</directory>
       </resource>
     </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -50,16 +75,80 @@
         <configuration>
           <archive>
             <manifestFile>${basedir}/META-INF/MANIFEST.MF</manifestFile>
+            <manifestEntries>
+              <Built-By>${skorg.packaged.by}</Built-By>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Built-By>${skorg.packaged.by}</Built-By>
+            </manifestEntries>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.5</version>
+        <configuration>
+          <propertyPrefix>bundle</propertyPrefix>
+        </configuration>
+        <executions>
+          <execution>
+            <id>set-osgi-version</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+              <Bundle-Name>${project.name}</Bundle-Name>
+              <Bundle-SymbolicName>${skorg.sb.name}.source</Bundle-SymbolicName>
+              <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+              <Bundle-Version>${bundle.osgiVersion}</Bundle-Version>
+              <Eclipse-SourceBundle>${skorg.sb.name};version="${bundle.osgiVersion}";roots:="."</Eclipse-SourceBundle>
+              <Built-By>${skorg.packaged.by}</Built-By>
+            </manifestEntries>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
-
-  <scm>
-    <url>https://github.com/skorg/perl-utils</url>
-    <connection>git://github.com/skorg/perl-utils.git</connection>
-    <developerConnection>https://github.com/skorg/perl-utils.git</developerConnection>
-  </scm>
 
 </project>
