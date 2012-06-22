@@ -3,17 +3,17 @@ use warnings;
 
 use lib qw(lib);
 
-use PodToBundle::PerlDiag;
-use PodToBundle::PodChecker;
+use ToBundle::Pod::PerlDiag;
+use ToBundle::Pod::PodChecker;
 
 my @TO_GENERATE = (
     {
-        filename  => 'errorsAndWarnings',
-        converter => 'PodToBundle::PerlDiag' 
+        filename    => 'errorsAndWarnings',
+        converter   => 'ToBundle::Pod::PerlDiag',
     },
     {
-        filename  => 'podErrorsAndWarnings',
-        converter => 'PodToBundle::PodChecker' 
+        filename    => 'podErrorsAndWarnings',
+        converter   => 'PodToBundle::PodChecker',
     },
 );
 

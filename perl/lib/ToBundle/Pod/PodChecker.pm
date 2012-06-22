@@ -1,5 +1,5 @@
-package PodToBundle::PodChecker;
-use base qw(PodToBundle);
+package ToBundle::Pod::PodChecker;
+use base qw(ToBundle::Pod);
 
 sub _getItems
 {

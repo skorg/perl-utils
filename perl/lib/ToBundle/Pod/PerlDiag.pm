@@ -1,5 +1,5 @@
-package PodToBundle::PerlDiag;
-use base qw(PodToBundle);
+package ToBundle::Pod::PerlDiag;
+use base qw(ToBundle::Pod);
 
 sub _getItems
 {

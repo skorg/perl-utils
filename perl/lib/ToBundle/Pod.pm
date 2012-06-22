@@ -1,4 +1,4 @@
-package PodToBundle;
+package ToBundle::Pod;
 
 use strict;
 use warnings;
