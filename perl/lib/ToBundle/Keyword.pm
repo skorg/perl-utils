@@ -4,73 +4,107 @@ use base qw(ToBundle);
 use strict;
 use warnings;
 
-use fields qw(name dir);
-
-sub new
-{
-    my $class = shift;
-    my %args  = @_;
-    Hash::Util::lock_keys(%args);
-    
-    my $self = fields::new($class);
-    
-    $self->{dir}  = $args{dir};
-    $self->{name} = $args{name}; 
-
-    return $self;
-}
+my @PERLDOC_FILTERS = (
+    qr/^__/,
+    qr/^\-/
+);
 
 sub convert
 {
     my $self = shift;
-    
-    my $idx = 0;
-    my $pom = _parse_pod($self->_getPodName);
-    
-    my $file = _getOutputFileHandle($self->{dir}, $self->{name});
-    
-    #
-    # meh...some pod documents allow for this:
-    #
-    #   =item A
-    #   =item B
-    #     here's my content
-    #   =cut
-    #
-    # so store last 'item' seen so we can pull it's title on the 
-    # next go around...
-    #
-    my $last;
-    
-    # this should be the 'item' object that has the data we want 
-    foreach my $root ($self->_getRoot($pom))
-    {
-        # figure out what type we are - error, warning, etc...
-        my $type = $self->_getType($root);
 
-        # convert each of the items        
-        foreach my $item ($self->_getItems($root))
-        {  
-            _convert($self, $file, \$idx, \$last, $type, $item);
-        }
+    my $i = 0;
+
+    foreach my $keyword(@{$self->_getKeywords})
+    {
+        my $docs = _genPerlDoc($self, $keyword, $self->_getPDocArg);
+        $keyword = $self->_escapeKeyword($keyword);
+        
+        $self->_write_entry($self->{fh}, $keyword, $docs);
     }
 }
 
-sub validateDir
-{
-    my $dir = shift->{dir};
+## sub-class
 
-    if (!$dir)
+#
+# escape the keyword
+# 
+sub _escapeKeyword
+{
+    # default returns keyword
+    return $_[1];
+}
+
+#
+# get keywords - arrayref
+#
+sub _getKeywords
+{
+    die 'bad monkey, implement me!';
+}
+
+#
+# perldoc arg
+#
+sub _getPDocArg
+{
+    die 'bad monkey, implement me!';
+}
+
+#
+# write the entry
+#
+sub _write_entry
+{
+    my $self = shift;
+    my $file = shift;
+    my @args = @_;
+        
+#    printf STDERR "%s=%s\n", @args;
+    printf $file "%s=%s\n", @args;
+}
+
+## private
+
+sub _genPerlDoc
+{
+    my $self = shift;
+    my ($keyword, $flag) = @_;
+
+    if (!$flag)
     {
-        printf "usage: %s <path_to_bundle_location>\n", $0;
-        exit(1);
+        die '_genPerlDoc invoked w/o passing $flag';
     }
 
-    if (!(-e $dir && -d $dir))
+    if (_matches_filter($keyword, \@PERLDOC_FILTERS))
     {
-        printf "invalid output directory: %s\n", $dir;
-        exit(1);
-    }    
+#        printf STDERR "skipping keyword [%s], matched filter\n", $keyword;
+        return '';
+    }
+
+    my $command = sprintf 'perldoc %s %s', $flag, quotemeta($keyword); 
+    my $perldoc = `$command`;
+
+    if (!$perldoc)
+    {
+#        printf STDERR "skipping keyword [%s], no perldoc found\n", $keyword;
+        return '';
+    }
+
+    # take just the first part of the pod for the annotation
+    $perldoc =~ s/(.*?\.)\n\n.*/$1/sm;
+   
+    $perldoc = $self->_escapeSlashes($perldoc);
+    $perldoc = $self->_escapeNewline($perldoc);
+    
+    return $perldoc;
+}
+
+sub _matches_filter
+{
+    my ($keyword, $filters) = @_;
+
+    return grep {$keyword =~ m/^$_/} @{$filters};
 }
 
 1;

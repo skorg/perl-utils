@@ -1,9 +1,8 @@
 package ToBundle::Pod;
+use base qw(ToBundle);
 
 use strict;
 use warnings;
-
-use fields qw(name dir);
 
 use Hash::Util;
 use IO::File;
@@ -11,26 +10,8 @@ use IO::File;
 use Pod::Find;
 use Pod::POM;
 
-use constant {
-    SUFFIX => 'properties'
-};
-
 # fix for Pod::POM bug 61083
 push @Pod::POM::Node::Begin::ACCEPT, qw(over item head1 head2 head3 head4);
-
-sub new
-{
-    my $class = shift;
-    my %args  = @_;
-    Hash::Util::lock_keys(%args);
-    
-    my $self = fields::new($class);
-    
-    $self->{dir}  = $args{dir};
-    $self->{name} = $args{name}; 
-
-    return $self;
-}
 
 sub convert
 {
@@ -38,8 +19,6 @@ sub convert
     
     my $idx = 0;
     my $pom = _parse_pod($self->_getPodName);
-    
-    my $file = _getOutputFileHandle($self->{dir}, $self->{name});
     
     #
     # meh...some pod documents allow for this:
@@ -58,31 +37,14 @@ sub convert
     foreach my $root ($self->_getRoot($pom))
     {
         # figure out what type we are - error, warning, etc...
-        my $type = $self->_getType($root);
+        my ($type) = $self->_getType($root);
 
         # convert each of the items        
         foreach my $item ($self->_getItems($root))
         {  
-            _convert($self, $file, \$idx, \$last, $type, $item);
+            _convert($self, \$idx, \$last, $type, $item);
         }
     }
-}
-
-sub validateDir
-{
-    my $dir = shift->{dir};
-
-    if (!$dir)
-    {
-        printf "usage: %s <path_to_bundle_location>\n", $0;
-        exit(1);
-    }
-
-    if (!(-e $dir && -d $dir))
-    {
-        printf "invalid output directory: %s\n", $dir;
-        exit(1);
-    }    
 }
 
 ## sub-class
@@ -129,31 +91,17 @@ sub _getRoot
     die 'bad monkey, implement me!';
 }
 
-sub _nextItemHasContent
-{
-    return 0;
-}
-
 sub _prepContent
 {
     my $self = shift;
     my ($text) = @_;
 
-    # remove any leading and/or trailing newlines at the end of the document
-    $text =~ s/^\n+//;
-    $text =~ s/\n+$//g;
-
     # replace newlines w/ a single space
     $text =~ s/\n/ /g;
-    # replace tabs w/ a single space
-    $text =~ s/\t/ /g;
-    # single space everything
-    $text =~ s/\s{2,}/ /g;
+    
+    $text = $self->_singleSpace($text);
 
-    # replace slashes for java
-    $text =~ s/\\/\\\\/g;
-
-    return $text;
+    return $self->SUPER::_prepContent($text);    
 }
 
 sub _prepTitle
@@ -176,13 +124,19 @@ sub _prepTitle
     return $text;    
 }
 
+sub _nextItemHasContent
+{
+    return 0;
+}
+
 ## private
 
 sub _convert
 {
     my $self = shift;
-    my ($file, $idx, $last, $type, $item) = @_;
+    my ($idx, $last, $type, $item) = @_;
     
+    my $file    = $self->{fh};    
     my $content = $item->content;
 
     if (!($content && $content ne ''))
@@ -221,14 +175,6 @@ sub _find_pod_file
     }
 
     return $file;
-}
-
-sub _getOutputFileHandle
-{
-    my $file = sprintf '%s.%s', File::Spec->catfile(@_), SUFFIX;
-    printf STDERR "creating bundle: %s\n", $file;
-
-    return IO::File->new($file, 'w');
 }
 
 sub _parse_pod

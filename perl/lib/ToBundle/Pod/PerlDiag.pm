@@ -26,8 +26,17 @@ sub _getType
 {
     my $self = shift;
     my ($item) = @_;
+
+    if ($item->content =~ m|^\((\w)|)
+    {
+        return $1;
+    }
     
-    return 'E';
+    #
+    # meh, not every message in perldiag has a classification (annoying), so
+    # we label it as 'U'nkown
+    #
+    return 'U';
 }
 
 1;
