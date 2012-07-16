@@ -9,23 +9,6 @@ my @PERLDOC_FILTERS = (
     qr/^\-/
 );
 
-sub convert
-{
-    my $self = shift;
-
-    my $i = 0;
-
-    foreach my $keyword(@{$self->_getKeywords})
-    {
-        my $docs = _genPerlDoc($self, $keyword, $self->_getPDocArg);
-        $keyword = $self->_escapeKeyword($keyword);
-        
-        $self->_write_entry($self->{fh}, $keyword, $docs);
-    }
-}
-
-## sub-class
-
 #
 # escape the keyword
 # 
@@ -51,60 +34,122 @@ sub _getPDocArg
     die 'bad monkey, implement me!';
 }
 
-#
-# write the entry
-#
-sub _write_entry
-{
-    my $self = shift;
-    my $file = shift;
-    my @args = @_;
-        
-#    printf STDERR "%s=%s\n", @args;
-    printf $file "%s=%s\n", @args;
-}
-
 ## private
 
-sub _genPerlDoc
+sub _combineTitles
 {
-    my $self = shift;
-    my ($keyword, $flag) = @_;
-
-    if (!$flag)
-    {
-        die '_genPerlDoc invoked w/o passing $flag';
-    }
-
-    if (_matches_filter($keyword, \@PERLDOC_FILTERS))
-    {
-#        printf STDERR "skipping keyword [%s], matched filter\n", $keyword;
-        return '';
-    }
-
-    my $command = sprintf 'perldoc %s %s', $flag, quotemeta($keyword); 
-    my $perldoc = `$command`;
-
-    if (!$perldoc)
-    {
-#        printf STDERR "skipping keyword [%s], no perldoc found\n", $keyword;
-        return '';
-    }
-
-    # take just the first part of the pod for the annotation
-    $perldoc =~ s/(.*?\.)\n\n.*/$1/sm;
-   
-    $perldoc = $self->_escapeSlashes($perldoc);
-    $perldoc = $self->_escapeNewline($perldoc);
-    
-    return $perldoc;
+    return 1;
 }
 
-sub _matches_filter
+sub _getDestDir
 {
-    my ($keyword, $filters) = @_;
+    return 'lang';
+}
 
-    return grep {$keyword =~ m/^$_/} @{$filters};
+sub _getEmptyKey
+{
+    my $self = shift;
+    my ($data) = @_;
+    
+    return $data->{keyword};
+}
+
+sub _getItems
+{
+    my $self = shift;
+    my ($root) = @_;
+    
+    return $root->item; 
+}
+
+sub _getPodKey
+{
+    my $self = shift;
+    my ($data) = @_;
+    
+    return $self->_escapeKeyword($data->{keyword});
+}
+
+sub _getRoot
+{
+    my $self = shift;
+    my ($pom) = @_;
+    
+    return $pom->over->[0];
+}
+
+sub _getToConvert
+{
+    my $self = shift;
+    
+    my @data = ();
+    my $flag = $self->_getPDocArg;
+    
+    foreach my $keyword(@{$self->_getKeywords})
+    {
+        push @data, {keyword => $keyword};
+        
+        if (grep {$keyword =~ m/^$_/} @PERLDOC_FILTERS)
+        {
+#            printf STDERR "skipping keyword [%s], matched filter\n", $keyword;        
+            next;                
+        }
+    
+        my $command = sprintf 'perldoc -uT %s %s', $flag, quotemeta($keyword);         
+        my $perldoc = `$command`;
+
+        if (!$perldoc)
+        {
+#            printf STDERR "skipping keyword [%s], no perldoc found\n", $keyword;
+            next;
+        }        
+    
+        $data[-1]->{pom} = $self->_parsePod($perldoc);
+    }
+    
+    return \@data;
+}
+
+sub _nextItemHasContent
+{
+    return 1;
+}
+
+sub _prepContent
+{
+    my $self = shift;
+    my ($text) = @_;
+    
+    # take just the first part of the pod for the annotation
+    $text =~ s|(.*?\.)\n\n.*|$1|sm;
+
+    # escape slashes
+    $text =~ s|\\|\\\\|g;
+    # escape newlines   
+    $text =~ s|\n|\\n|g;
+    
+    # replace any double spaces w/ a single space
+    $text =~ s|\.\s{2,}|. |g;
+    
+    return $text;
+}
+
+sub _prepTitle
+{
+    my $self = shift;
+    my ($text) = @_;
+    
+    # remove the index fields
+    $text =~ s|X\<.*\>\s*||g;
+    
+    # trim trailing/leading whitespace
+    $text =~ s|^\s+||g;
+    $text =~ s|\s+$||g;
+
+    # trim trailing newlines
+    $text =~ s|\n$||g;
+    
+    return $text;
 }
 
 1;

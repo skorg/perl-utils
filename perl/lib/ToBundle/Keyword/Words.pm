@@ -4,23 +4,8 @@ use base qw(ToBundle::Keyword);
 use strict;
 use warnings;
 
-use B::Keywords;
-
 # meh, see '_determine_builtin_type'
 use Perl::Critic::Utils qw(:classification);
-
-sub _getKeywords
-{
-    return [
-        @B::Keywords::Functions,
-        @B::Keywords::Barewords
-    ];
-}
-
-sub _getPDocArg
-{
-    return '-f';
-}
 
 sub _determine_builtin_type
 {
@@ -51,19 +36,25 @@ sub _determine_builtin_type
         return 'R';
     }
 
-    # is_perl_builtin_with_optional_argument($keyword))
-    return 'O';    
+    if (is_perl_builtin_with_optional_argument($keyword))
+    {
+        return 'O';
+    }
+    
+    return 'Z';
 }
-#
-#sub _write_entry
-#{
-#    my $self = shift;
-#    my ($file, $keyword, $docs) = @_; 
-#    
-#    my $type = _determine_builtin_type($keyword);
-#        
-##    printf STDERR "%s=%s|%s\n", $keyword, $type, $docs;
-#    printf $file "%s=%s|%s\n", $keyword, $type, $docs;
-#}
+
+sub _getPDocArg
+{
+    return '-f';
+}
+
+sub _getType
+{
+    my $self = shift;
+    my ($root, $data) = @_;
+
+    return _determine_builtin_type($data->{keyword});
+}
 
 1;

@@ -1,6 +1,16 @@
 package ToBundle::Pod::PodChecker;
 use base qw(ToBundle::Pod);
 
+sub _getBundleName
+{
+    return 'podErrorsAndWarnings';
+}
+
+sub _getDestDir
+{
+    return 'pod'
+}
+
 sub _getItems
 {
     my $self = shift;
@@ -19,7 +29,7 @@ sub _getRoot
     my $self = shift;
     my ($pom) = @_;
     
-    return ($pom->head1->[4]->head2);
+    return $pom->head1->[4]->head2;
 }
 
 sub _getType
@@ -30,6 +40,11 @@ sub _getType
     return substr $item->title, 0, 1;
 }
 
+sub _nextItemHasContent
+{
+    return 1;
+}
+
 sub _prepTitle
 {
     my $self = shift;
@@ -38,11 +53,6 @@ sub _prepTitle
     $text =~ s/^\*//;
     
     return $self->SUPER::_prepTitle($text);
-}
-
-sub _nextItemHasContent
-{
-    return 1;
 }
 
 1;

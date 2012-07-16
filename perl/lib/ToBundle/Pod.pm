@@ -8,46 +8,6 @@ use Hash::Util;
 use IO::File;
 
 use Pod::Find;
-use Pod::POM;
-
-# fix for Pod::POM bug 61083
-push @Pod::POM::Node::Begin::ACCEPT, qw(over item head1 head2 head3 head4);
-
-sub convert
-{
-    my $self = shift;
-    
-    my $idx = 0;
-    my $pom = _parse_pod($self->_getPodName);
-    
-    #
-    # meh...some pod documents allow for this:
-    #
-    #   =item A
-    #   =item B
-    #     here's my content
-    #   =cut
-    #
-    # so store last 'item' seen so we can pull it's title on the 
-    # next go around...
-    #
-    my $last;
-    
-    # this should be the 'item' object that has the data we want 
-    foreach my $root ($self->_getRoot($pom))
-    {
-        # figure out what type we are - error, warning, etc...
-        my ($type) = $self->_getType($root);
-
-        # convert each of the items        
-        foreach my $item ($self->_getItems($root))
-        {  
-            _convert($self, \$idx, \$last, $type, $item);
-        }
-    }
-}
-
-## sub-class
 
 #
 # get the actual content items - in some cases, this may just be $root' 
@@ -96,12 +56,23 @@ sub _prepContent
     my $self = shift;
     my ($text) = @_;
 
-    # replace newlines w/ a single space
-    $text =~ s/\n/ /g;
-    
-    $text = $self->_singleSpace($text);
+    # trim leading/trailing whitespace
+    $text =~ s|^\s+||g;
+    $text =~ s|\s+$||g;
 
-    return $self->SUPER::_prepContent($text);    
+    # trim leading/trailing newlines
+    $text =~ s|^\r*\n||;
+    $text =~ s|\r*\n$||;
+    
+    # escape slashes
+    $text =~ s|\\|\\\\|g;
+    # escape newlines   
+    $text =~ s|\r*\n|\\n|g;
+    
+    # replace any double spaces w/ a single space
+    $text =~ s|\.\s{2,}|. |g;
+    
+    return $text;
 }
 
 sub _prepTitle
@@ -124,83 +95,37 @@ sub _prepTitle
     return $text;    
 }
 
-sub _nextItemHasContent
-{
-    return 0;
-}
-
 ## private
 
-sub _convert
+sub _getPodKey
 {
-    my $self = shift;
-    my ($idx, $last, $type, $item) = @_;
-    
-    my $file    = $self->{fh};    
-    my $content = $item->content;
-
-    if (!($content && $content ne ''))
-    {
-        if ($self->_nextItemHasContent)
-        {               
-            $$last = $item;
-        }
-        
-        return;
-    }
-    
-    my $mesg = $self->_prepTitle($item->title);        
-    my $desc = $self->_prepContent($item->content);                    
-            
-    if ($$last)
-    {
-        my $prev = $self->_prepTitle($$last->title);                                    
-        _write_entry($file, $$idx++, $type, $prev, $desc);
-                
-        $$last = undef;
-    }
-         
-    _write_entry($file, $$idx++, $type, $mesg, $desc);
+    return shift->_idx;
 }
 
-sub _find_pod_file
+sub _getToConvert
 {
-    my ($pod) = @_;
+    my $self = shift;
     
+    my $pod  = $self->_getPodName;
     my $file = Pod::Find::pod_where({-inc => 1}, $pod);
+    
     if (!$file)
     {
         print STDERR "unable to find pod for '$pod', aborting...\n";
         exit(1);
-    }
-
-    return $file;
+    }    
+    
+    return [{pom => $self->_parsePod($file)}];
 }
 
-sub _parse_pod
+sub _toEntry
 {
-    my ($pod) = @_;
+    my $self = shift;
+    my ($title, $content, $extra) = @_;
+
+    my $type = $extra->{type};
     
-    my $file   = _find_pod_file($pod);
-    my $parser = Pod::POM->new(warn => 0);
-
-    my $parsed = $parser->parse_file($file);
-    if (!$parsed)
-    {
-        printf STDERR "unable to '$pod' pod: %s\n", $parser->error;
-        exit(1);
-    }
-
-    return $parsed;
-}
-
-sub _write_entry
-{
-    my $file = shift;
-    my @args = @_;    
-    
-    # printf STDERR "%d=%s|%s|%s\n", @args;
-    printf $file "%d=%s|%s|%s\n", @args;
+    return sprintf "%s=%s|%s|%s", $self->_idx, $type, $title, $content;
 }
 
 1;

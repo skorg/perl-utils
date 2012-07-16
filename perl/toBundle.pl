@@ -14,41 +14,32 @@ BEGIN
 
 use lib qw(lib);
 
-use ToBundle::Keyword::Variables;
-use ToBundle::Keyword::Words;
+use ToBundle::Keyword::Words::Barewords;
+use ToBundle::Keyword::Words::Functions;
+
+use ToBundle::Keyword::Variable::Array;
+use ToBundle::Keyword::Variable::FileHandle;
+use ToBundle::Keyword::Variable::Hash;
+use ToBundle::Keyword::Variable::Scalar;
 
 use ToBundle::Pod::PerlDiag;
 use ToBundle::Pod::PodChecker;
 
-my @TO_GENERATE = (
-    {
-        converter   => 'ToBundle::Pod::PerlDiag',
-        filename    => 'errorsAndWarnings',
-        srcDirName  => 'compiler'        
-    },
-    {
-        converter   => 'ToBundle::Pod::PodChecker',
-        filename    => 'podErrorsAndWarnings',
-        srcDirName  => 'pod'    
-    },
-    {
-        converter   => 'ToBundle::Keyword::Variables',
-        filename    => 'variableKeywords',
-        srcDirName  => 'lang'        
-    },
-    {
-        converter   => 'ToBundle::Keyword::Words',
-        filename    => 'wordKeywords',
-        srcDirName  => 'lang'        
-    },
+
+my @TO_GENERATE = qw( 
+    ToBundle::Keyword::Words::Barewords
+    ToBundle::Keyword::Words::Functions
+   
+    ToBundle::Keyword::Variable::Array
+    ToBundle::Keyword::Variable::FileHandle
+    ToBundle::Keyword::Variable::Hash
+    ToBundle::Keyword::Variable::Scalar    
+
+    ToBundle::Pod::PerlDiag
+    ToBundle::Pod::PodChecker               
 );
 
-foreach my $generate (@TO_GENERATE)
+foreach my $class (@TO_GENERATE)
 {
-    my $converter = $generate->{converter}->new(
-        dir  => $generate->{srcDirName},
-        name => $generate->{filename}
-    );
-
-    $converter->convert;
+    $class->new()->convert;
 }
