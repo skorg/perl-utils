@@ -49,4 +49,9 @@ sub _getType
     return 'U';
 }
 
+sub _getXmlRootTag
+{
+    return 'perlDiag';
+}
+
 1;

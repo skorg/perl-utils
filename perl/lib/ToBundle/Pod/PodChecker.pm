@@ -40,9 +40,9 @@ sub _getType
     return substr $item->title, 0, 1;
 }
 
-sub _nextItemHasContent
+sub _getXmlRootTag
 {
-    return 1;
+    return 'podChecker';
 }
 
 sub _prepTitle

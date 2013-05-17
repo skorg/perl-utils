@@ -10,15 +10,6 @@ my @PERLDOC_FILTERS = (
 );
 
 #
-# escape the keyword
-# 
-sub _escapeKeyword
-{
-    # default returns keyword
-    return $_[1];
-}
-
-#
 # get keywords - arrayref
 #
 sub _getKeywords
@@ -36,22 +27,9 @@ sub _getPDocArg
 
 ## private
 
-sub _combineTitles
-{
-    return 1;
-}
-
 sub _getDestDir
 {
     return 'lang';
-}
-
-sub _getEmptyKey
-{
-    my $self = shift;
-    my ($data) = @_;
-    
-    return $data->{keyword};
 }
 
 sub _getItems
@@ -60,14 +38,6 @@ sub _getItems
     my ($root) = @_;
     
     return $root->item; 
-}
-
-sub _getPodKey
-{
-    my $self = shift;
-    my ($data) = @_;
-    
-    return $self->_escapeKeyword($data->{keyword});
 }
 
 sub _getRoot
@@ -110,9 +80,14 @@ sub _getToConvert
     return \@data;
 }
 
-sub _nextItemHasContent
+sub _getXmlElementTag
 {
-    return 1;
+    return 'keyword';
+}
+
+sub _getXmlRootTag
+{
+    return 'keywords';
 }
 
 sub _prepContent
@@ -122,16 +97,8 @@ sub _prepContent
     
     # take just the first part of the pod for the annotation
     $text =~ s|(.*?\.)\n\n.*|$1|sm;
-
-    # escape slashes
-    $text =~ s|\\|\\\\|g;
-    # escape newlines   
-    $text =~ s|\n|\\n|g;
     
-    # replace any double spaces w/ a single space
-    $text =~ s|\.\s{2,}|. |g;
-    
-    return $text;
+    return $self->SUPER::_prepContent($text);
 }
 
 sub _prepTitle
@@ -150,6 +117,14 @@ sub _prepTitle
     $text =~ s|\n$||g;
     
     return $text;
+}
+
+sub _writeTitles
+{
+    my $self = shift;
+    my ($writer, $titles) = @_;
+    
+    # no-op, for now...
 }
 
 1;

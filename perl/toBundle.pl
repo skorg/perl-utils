@@ -3,6 +3,7 @@ use warnings;
 
 BEGIN
 {
+    # TODO: this should be 'eval-ed' to make sure it exists
     use File::Util;
     
     if (index(__FILE__, File::Util->SL) != -1)
@@ -25,6 +26,9 @@ use ToBundle::Keyword::Variable::Scalar;
 use ToBundle::Pod::PerlDiag;
 use ToBundle::Pod::PodChecker;
 
+#my @TO_GENERATE = qw(
+#    ToBundle::Keyword::Variable::Array  
+#);
 
 my @TO_GENERATE = qw( 
     ToBundle::Keyword::Words::Barewords

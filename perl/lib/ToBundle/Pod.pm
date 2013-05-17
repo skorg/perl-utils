@@ -10,44 +10,10 @@ use IO::File;
 use Pod::Find;
 
 #
-# get the actual content items - in some cases, this may just be $root' 
-# itself, other times further traversal will be required
-#
-sub _getItems
-{
-    my $self = shift;
-    my ($root) = @_;
-    
-    die 'bad monkey, implement me!';
-}
-
-#
 # get the name of the pod file to convert
 # 
 sub _getPodName
 {
-    die 'bad monkey, implement me!';
-}
-
-#
-# get the 'type'...error, warning, etc
-#
-sub _getType
-{
-    my $self = shift;
-    my ($item) = @_;
-    
-    die 'bad monkey, implement me!';
-}
-
-#
-# get the 'root' item node that contains the data we want 
-#
-sub _getRoot
-{
-    my $self = shift;
-    my ($pom) = @_;
-    
     die 'bad monkey, implement me!';
 }
 
@@ -64,15 +30,7 @@ sub _prepContent
     $text =~ s|^\r*\n||;
     $text =~ s|\r*\n$||;
     
-    # escape slashes
-    $text =~ s|\\|\\\\|g;
-    # escape newlines   
-    $text =~ s|\r*\n|\\n|g;
-    
-    # replace any double spaces w/ a single space
-    $text =~ s|\.\s{2,}|. |g;
-    
-    return $text;
+    return $self->SUPER::_prepContent($text);
 }
 
 sub _prepTitle
@@ -97,11 +55,6 @@ sub _prepTitle
 
 ## private
 
-sub _getPodKey
-{
-    return shift->_idx;
-}
-
 sub _getToConvert
 {
     my $self = shift;
@@ -118,14 +71,22 @@ sub _getToConvert
     return [{pom => $self->_parsePod($file)}];
 }
 
-sub _toEntry
+sub _getXmlElementTag
+{
+    return 'eow';
+}
+
+sub _writeTitles
 {
     my $self = shift;
-    my ($title, $content, $extra) = @_;
-
-    my $type = $extra->{type};
+    my ($writer, $titles) = @_;
     
-    return sprintf "%s=%s|%s|%s", $self->_idx, $type, $title, $content;
+    $writer->startTag('patterns');
+    foreach my $title (@{$titles})
+    {
+        $writer->cdataElement('pattern', $title);
+    }
+    $writer->endTag;
 }
 
 1;
