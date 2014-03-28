@@ -15,11 +15,11 @@ public final class ProcessHandler
 {
     //~ Instance fields
 
+    private boolean rethrow;
+
     private final Object lock = new Object();
 
     private Process process;
-
-    private boolean rethrow;
 
     private String stdin;
 
@@ -173,8 +173,8 @@ public final class ProcessHandler
 
     private class ScriptOutputReader implements Runnable
     {
-        private StringBuffer buffer = new StringBuffer();
         private InputStream stream;
+        private StringBuffer buffer = new StringBuffer();
 
         ScriptOutputReader(InputStream stream)
         {

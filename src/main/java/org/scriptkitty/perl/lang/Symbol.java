@@ -1,13 +1,13 @@
 package org.scriptkitty.perl.lang;
 
-import org.scriptkitty.perl.internal.ResourceBundleFactory;
-
 import java.util.ResourceBundle;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 
 @XmlRootElement public class Symbol
@@ -55,7 +55,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         {
             return null;
         }
-        
+
         return (Symbol) bundle.getObject(symbol);
     }
 

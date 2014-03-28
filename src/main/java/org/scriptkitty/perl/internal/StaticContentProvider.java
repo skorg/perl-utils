@@ -1,11 +1,9 @@
 package org.scriptkitty.perl.internal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,6 +19,9 @@ import javax.xml.bind.ValidationEventHandler;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.transform.stream.StreamSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 abstract class StaticContentProvider<T>
 {
@@ -30,17 +31,17 @@ abstract class StaticContentProvider<T>
         System.getProperty("org.scriptkitty.perl.internal.logUnmarshallErrors", Boolean.FALSE.toString()));
 
     private static final Logger logger = LoggerFactory.getLogger(StaticContentProvider.class);
-    
+
     //~ Instance fields
 
     private Map<String, T> contentMap;
 
-    //~ Methods
+    //~ Constructors
 
     StaticContentProvider(String baseName) throws InstantiationException
     {
-        Class<T> contentClass = getContentClass(); 
-        
+        Class<T> contentClass = getContentClass();
+
         try(InputStreamReader reader = new InputStreamReader(contentClass.getResourceAsStream(baseName + ".xml")))
         {
             Collection<T> collection = unmarshal(contentClass, reader);
@@ -58,15 +59,7 @@ abstract class StaticContentProvider<T>
         }
     }
 
-    final T get(String key)
-    {
-        return contentMap.get(key);
-    }
-
-    final Set<String> getKeys()
-    {
-        return contentMap.keySet();
-    }
+    //~ Methods
 
     protected abstract Class<T> getContentClass();
 
@@ -109,6 +102,16 @@ abstract class StaticContentProvider<T>
             logger.error("an unexpected unmarshalling error occurred", e);
             throw new InstantiationException(e.getMessage());
         }
+    }
+
+    final T get(String key)
+    {
+        return contentMap.get(key);
+    }
+
+    final Set<String> getKeys()
+    {
+        return contentMap.keySet();
     }
 
     //~ Inner Classes

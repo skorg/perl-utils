@@ -1,13 +1,14 @@
 package org.scriptkitty.perl.compiler;
 
-import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public final class CompilerOutput
@@ -21,7 +22,9 @@ public final class CompilerOutput
     //~ Instance fields
 
     private final int lineNo;
+
     private final String message;
+
     private final String path;
 
     //~ Constructors

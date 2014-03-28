@@ -33,20 +33,20 @@ public class HereDoc
     {
         String identifier = null;
         Matcher matcher = HEREDOC.matcher(str);
-        
-        if (matcher.find() && parseTerminator(matcher.group(1)) != null)            
+
+        if (matcher.find() && (parseTerminator(matcher.group(1)) != null))
         {
             identifier = matcher.group(1);
         }
-        
+
         return identifier;
     }
 
     /**
      * does the passed string match a heredoc identifier?
      *
-     * <p>this method can be used to determine if the content following <code>&lt;&lt;</code> comprises a herdoc
-     * identifier, ie: <code>&lt;&lt;EOF</code> or <code>&lt;&lt;"EOF"</code>.</p>
+     * <p>this method can be used to determine if the content following <code>&lt;&lt;</code> comprises a herdoc identifier, ie: <code>
+     * &lt;&lt;EOF</code> or <code>&lt;&lt;"EOF"</code>.</p>
      *
      * <p>NOTE: 'null' terminated heredoc is not yet supported.</p>
      *
@@ -62,24 +62,24 @@ public class HereDoc
     public static String parseTerminator(String content)
     {
         return parseTerminator(content, new TerminatorMode()
-        {
-            @Override public void setCommand()
             {
-                // no-op
-            }
+                @Override public void setCommand()
+                {
+                    // no-op
+                }
 
-            @Override public void setInterpolate()
-            {
-                // no-op
-            }
+                @Override public void setInterpolate()
+                {
+                    // no-op
+                }
 
-            @Override public void setLiteral()
-            {
-                // no-op
-            }
-        });
+                @Override public void setLiteral()
+                {
+                    // no-op
+                }
+            });
     }
-    
+
     public static String parseTerminator(String content, TerminatorMode mode)
     {
         Matcher matcher = WORD.matcher(content);

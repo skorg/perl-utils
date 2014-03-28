@@ -17,19 +17,27 @@ public class ResourceBundleFactory extends java.util.ResourceBundle.Control
     private static String BUNDLED_STATIC = "org.scriptkitty.perl.internal.StaticContentManager";
 
     private static Logger logger = LoggerFactory.getLogger(ResourceBundleFactory.class);
-    
+
     private static ResourceBundleFactory self = new ResourceBundleFactory();
+
+    //~ Constructors
 
     private ResourceBundleFactory()
     {
     }
-    
-    @Override
-    public List<String> getFormats(String baseName) 
+
+    //~ Methods
+
+    public static java.util.ResourceBundle getBundle(String bundle)
+    {
+        return java.util.ResourceBundle.getBundle(bundle, self);
+    }
+
+    @Override public List<String> getFormats(String baseName)
     {
         return Arrays.asList("xml");
     }
-    
+
     @Override public java.util.ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
         throws InstantiationException
     {
@@ -37,14 +45,12 @@ public class ResourceBundleFactory extends java.util.ResourceBundle.Control
         {
             return createBundleDelegate(baseName, loader);
         }
-        
+
         return null;
     }
 
     private StaticBundleDelegate createBundleDelegate(String baseName, ClassLoader loader) throws InstantiationException
     {
-        
-        
         return new StaticBundleDelegate(getContentProvider(baseName, loader, BUNDLED_STATIC));
 
 //      IContentProvider provider = getContentProvider(loader, buildClassName(INTERPRETER_PROVIDER));
@@ -55,14 +61,14 @@ public class ResourceBundleFactory extends java.util.ResourceBundle.Control
 //
 //      return new BundleDelegate(provider);
     }
-    
+
     private StaticContentProvider<?> getContentProvider(String baseName, ClassLoader loader, String className) throws InstantiationException
     {
         try
         {
             Class<IContentManager> clazz = (Class<IContentManager>) loader.loadClass(className);
             IContentManager manager = clazz.newInstance();
-            
+
             return manager.getContentProvider(baseName);
         }
         catch (InstantiationException e)
@@ -98,10 +104,5 @@ public class ResourceBundleFactory extends java.util.ResourceBundle.Control
         {
             return provider.get(key);
         }
-    }
-
-    public static java.util.ResourceBundle getBundle(String bundle)
-    {
-        return java.util.ResourceBundle.getBundle(bundle, self);
     }
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+
 import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
 
 
@@ -24,6 +25,6 @@ public class TestCompilerOutputParser
         assertEquals("test.pl", output.getPath());
         assertEquals("Global symbol \"$foo\" requires explicit package name", output.getMessage());
 
-        assertNotNull(errorOrWarn);        
+        assertNotNull(errorOrWarn);
     }
 }

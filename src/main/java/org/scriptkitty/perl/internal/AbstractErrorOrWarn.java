@@ -25,6 +25,11 @@ public class AbstractErrorOrWarn
         // required by jaxb
     }
 
+//    public final String getContent()
+//    {
+//        return content;
+//    }
+
     protected AbstractErrorOrWarn(String regexp, String content)
     {
         this.content = content;
@@ -32,11 +37,6 @@ public class AbstractErrorOrWarn
     }
 
     //~ Methods
-
-//    public final String getContent()
-//    {
-//        return content;
-//    }
 
     public final String getPattern()
     {

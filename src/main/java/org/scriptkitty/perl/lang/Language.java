@@ -2,15 +2,16 @@ package org.scriptkitty.perl.lang;
 
 import org.scriptkitty.perl.internal.Constants;
 
+
 public class Language
 {
     //~ Methods
 
     /**
      * does the specified character represent the ampersand sigil (<code>&</code>)?
-     * 
-     * @param c char
-     * 
+     *
+     * @param  c char
+     *
      * @return <code>true</code> if the ampersand sigil, <code>false</code> otherwise
      */
     public static boolean isAmpSigil(char c)
@@ -20,9 +21,9 @@ public class Language
 
     /**
      * does the specified string represent the ampersand sigil (<code>&</code>)?
-     * 
-     * @param s string
-     * 
+     *
+     * @param  s string
+     *
      * @return <code>true</code> if the ampersand sigil, <code>false</code> otherwise
      */
     public static boolean isAmpSigil(String s)
@@ -32,9 +33,9 @@ public class Language
 
     /**
      * does the specified character represent the array sigil (<code>@</code>)?
-     * 
-     * @param c char
-     * 
+     *
+     * @param  c char
+     *
      * @return <code>true</code> if the array sigil, <code>false</code> otherwise
      */
     public static boolean isArraySigil(char c)
@@ -44,9 +45,9 @@ public class Language
 
     /**
      * does the specified string represent the array sigil (<code>@</code>)?
-     * 
-     * @param s string
-     * 
+     *
+     * @param  s string
+     *
      * @return <code>true</code> if the array sigil, <code>false</code> otherwise
      */
     public static boolean isArraySigil(String s)
@@ -56,9 +57,9 @@ public class Language
 
     /**
      * does the specified string represent the 'dollar pound' (<code>$#</code>)?
-     * 
-     * @param s string
-     * 
+     *
+     * @param  s string
+     *
      * @return <code>true</code> if the 'dollar pound', <code>false</code> otherwise
      */
     public static boolean isDollarPound(String s)
@@ -68,9 +69,9 @@ public class Language
 
     /**
      * does the specified character represent the hash sigil (<code>%</code>)?
-     * 
-     * @param c char
-     * 
+     *
+     * @param  c char
+     *
      * @return <code>true</code> if the hash sigil, <code>false</code> otherwise
      */
     public static boolean isHashSigil(char c)
@@ -80,9 +81,9 @@ public class Language
 
     /**
      * does the specified string represent the hash sigil (<code>%</code>)?
-     * 
-     * @param s string
-     * 
+     *
+     * @param  s string
+     *
      * @return <code>true</code> if the hash sigil, <code>false</code> otherwise
      */
     public static boolean isHashSigil(String s)
@@ -104,9 +105,9 @@ public class Language
 
     /**
      * does the specified character represent the scalar sigil (<code>$</code>)?
-     * 
-     * @param c char
-     * 
+     *
+     * @param  c char
+     *
      * @return <code>true</code> if the scalar sigil, <code>false</code> otherwise
      */
     public static boolean isScalarSigil(char c)
@@ -116,14 +117,14 @@ public class Language
 
     /**
      * does the specified string represent the scalar sigil (<code>$</code>)?
-     * 
-     * @param s string
-     * 
+     *
+     * @param  s string
+     *
      * @return <code>true</code> if the scalar sigil, <code>false</code> otherwise
      */
     public static boolean isScalarSigil(String s)
     {
         return Constants.SCALAR_S.equals(s);
     }
-    
+
 }

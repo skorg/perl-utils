@@ -56,17 +56,17 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
 
     //~ Constructors
 
+    private CompilerErrorOrWarn()
+    {
+        // required by jaxb
+    }
+
     private CompilerErrorOrWarn(String regexp, String content, CompilerErrorOrWarn.ClassificationType type)
     {
         super(regexp, content);
 
         this.classifications = new ArrayList<>(1);
         this.classifications.add(new Classification(type));
-    }
-
-    private CompilerErrorOrWarn()
-    {
-        // required by jaxb
     }
 
     //~ Methods

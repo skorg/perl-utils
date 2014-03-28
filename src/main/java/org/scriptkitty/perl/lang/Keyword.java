@@ -1,8 +1,5 @@
 package org.scriptkitty.perl.lang;
 
-import org.scriptkitty.perl.internal.Constants;
-import org.scriptkitty.perl.internal.ResourceBundleFactory;
-
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -10,6 +7,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.scriptkitty.perl.internal.Constants;
+import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 
 @XmlRootElement(name = "keyword")
