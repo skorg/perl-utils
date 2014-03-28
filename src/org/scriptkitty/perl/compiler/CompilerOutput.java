@@ -1,10 +1,30 @@
 package org.scriptkitty.perl.compiler;
 
+import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 public final class CompilerOutput
 {
-    public final String message;
-    public final String path;
-    public final int lineNo;
+    //~ Static fields/initializers
+
+    private static final Pattern compiler = Pattern.compile("^(.*) at (\\S+) line (\\d+)[\\.,]?");
+
+    private static final Logger logger = LoggerFactory.getLogger(CompilerOutput.class);
+
+    //~ Instance fields
+
+    private final int lineNo;
+    private final String message;
+    private final String path;
+
+    //~ Constructors
 
     CompilerOutput(String message, String path, int lineNo)
     {
@@ -13,23 +33,81 @@ public final class CompilerOutput
         this.lineNo = lineNo;
     }
 
-    public boolean isLocal()
+    //~ Methods
+
+    public static List<CompilerOutput> parse(List<String> lines)
     {
-        return "-".equals(path);
+        List<CompilerOutput> list = new ArrayList<>();
+
+        for (String line : lines)
+        {
+            CompilerOutput output = parse(line);
+            if (output != null)
+            {
+                list.add(output);
+            }
+        }
+
+        return list;
     }
-    
+
+    public static CompilerOutput parse(String line)
+    {
+        Matcher matcher = compiler.matcher(line);
+        if (!matcher.find())
+        {
+            logger.error("unable to parse line [{}] against pattern [{}]", line, compiler.pattern());
+            return null;
+        }
+
+        return new CompilerOutput(matcher.group(1), matcher.group(2), parseInt(matcher.group(3), line));
+    }
+
+    public AbstractErrorOrWarn getErrorOrWarning()
+    {
+        return CompilerErrorOrWarn.getErrorOrWarning(message);
+    }
+
+    public int getLineNumber()
+    {
+        return lineNo;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public String getPath()
+    {
+        return path;
+    }
+
     /**
      * does this object represent the useless <code>BEGIN failed--compilation aborted</code> compiler message?
-     * 
+     *
      * @return <code>true</code> if error message, <code>false</code> otherwise
      */
     public boolean isCompilationAborted()
     {
         return (message.indexOf("BEGIN failed--compilation aborted") == 0);
     }
-    
-    public ErrorsAndWarnings.ErrorOrWarning getErrorOrWarning()
+
+    public boolean isLocal()
     {
-        return ErrorsAndWarnings.getErrorOrWarning(message);
+        return "-".equals(path);
+    }
+
+    private static int parseInt(String str, String line)
+    {
+        try
+        {
+            return Integer.parseInt(str);
+        }
+        catch (NumberFormatException e)
+        {
+            logger.error("unable to parse line number from [{}]", line, e);
+            return -1;
+        }
     }
 }
