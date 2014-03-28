@@ -1,0 +1,8 @@
+
+the following modules (and their dependencies) must be installed before running the generation script.
+
+B::Keywords;
+File::Util
+Perl::Critic
+Pod::POM
+XML::Writer
