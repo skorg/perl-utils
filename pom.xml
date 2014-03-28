@@ -10,6 +10,7 @@
     <groupId>org.scriptkitty</groupId>
     <artifactId>skorg-build</artifactId>
     <version>3-SNAPSHOT</version>
+    <relativePath>../skorg-build</relativePath>
   </parent>
 
   <artifactId>perl-utils</artifactId>
