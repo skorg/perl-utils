@@ -69,7 +69,7 @@ sub _getType
         return 'O';
     }
     
-    return;
+    return 'NULL';
 }
 
 sub _getXmlElementTag

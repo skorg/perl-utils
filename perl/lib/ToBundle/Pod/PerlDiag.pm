@@ -16,7 +16,7 @@ sub _addData
 
 sub _getBundleName
 {
-    return 'errorsAndWarnings';
+    return 'compilerErrorsAndWarnings';
 }
 
 sub _getClassifications

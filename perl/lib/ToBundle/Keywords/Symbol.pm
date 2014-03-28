@@ -76,7 +76,7 @@ sub _getXmlElementTag
 
 sub _getXmlRootTag
 {
-    return 'symbolss';
+    return 'symbols';
 }
 
 sub _matches
