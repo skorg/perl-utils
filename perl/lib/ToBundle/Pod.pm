@@ -4,11 +4,6 @@ use base qw(ToBundle);
 use strict;
 use warnings;
 
-use Hash::Util;
-use IO::File;
-
-use Pod::Find;
-
 sub _addData
 {
     my $self = shift;
@@ -18,7 +13,7 @@ sub _addData
     # force the title into a scalar before prepping it - this isn't
     # necessary, but makes debugging easier...
     #    
-    $data->{pattern} = _prepPattern($self, scalar $node->title);
+    $data->{pattern} = $self->_prepPattern(scalar $node->title);
 }
 
 #

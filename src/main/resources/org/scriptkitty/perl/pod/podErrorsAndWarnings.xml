@@ -1,0 +1,393 @@
+<podChecker>
+  <eow>
+    <pattern><![CDATA[. empty =headn]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * empty =headn
+
+A heading (C<=head1> or C<=head2>) without any text? That ain't no
+heading!
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. =over on line I<N> without closing =back]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * =over on line I<N> without closing =back
+
+The C<=over> command does not have a corresponding C<=back> before the
+next heading (C<=head1> or C<=head2>) or the end of the file.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. =item without previous =over]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * =item without previous =over
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[=back without previous =over]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * =back without previous =over
+
+An C<=item> or C<=back> command has been found outside a
+C<=over>/C<=back> block.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. No argument for =begin]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * No argument for =begin
+
+A C<=begin> command was found that is not followed by the formatter
+specification.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. =end without =begin]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * =end without =begin
+
+A standalone C<=end> command was found.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Nested =begin's]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Nested =begin's
+
+There were at least two consecutive C<=begin> commands without
+the corresponding C<=end>. Only one C<=begin> may be active at
+a time.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. =for without formatter specification]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * =for without formatter specification
+
+There is no specification of the formatter after the C<=for> command.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Apparent command =foo not preceded by blank line]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Apparent command =foo not preceded by blank line
+
+A command which has ended up in the middle of a paragraph or other command,
+such as
+
+  =item one
+  =item two <-- bad
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. unresolved internal link I<NAME>]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * unresolved internal link I<NAME>
+
+The given link to I<NAME> does not have a matching node in the current
+POD. This also happened when a single word node name is not enclosed in
+C<"">.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Unknown command "I<CMD>"]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Unknown command "I<CMD>"
+
+An invalid POD command has been found. Valid are C<=head1>, C<=head2>,
+C<=head3>, C<=head4>, C<=over>, C<=item>, C<=back>, C<=begin>, C<=end>,
+C<=for>, C<=pod>, C<=cut>
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Unknown interior-sequence "I<SEQ>"]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Unknown interior-sequence "I<SEQ>"
+
+An invalid markup command has been encountered. Valid are:
+C<< BE<lt>E<gt> >>, C<< CE<lt>E<gt> >>, C<< EE<lt>E<gt> >>, C<< FE<lt>E<gt> >>,
+C<< IE<lt>E<gt> >>, C<< LE<lt>E<gt> >>, C<< SE<lt>E<gt> >>, C<< XE<lt>E<gt> >>,
+C<< ZE<lt>E<gt> >>
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. nested commands I<CMD>E<lt>...I<CMD>E<lt>...E<gt>...E<gt>]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * nested commands I<CMD>E<lt>...I<CMD>E<lt>...E<gt>...E<gt>
+
+Two nested identical markup commands have been found. Generally this
+does not make sense.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. garbled entity I<STRING>]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * garbled entity I<STRING>
+
+The I<STRING> found cannot be interpreted as a character entity.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Entity number out of range]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Entity number out of range
+
+An entity specified by number (dec, hex, oct) is out of range (1-255).
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. malformed link LE<lt>E<gt>]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * malformed link LE<lt>E<gt>
+
+The link found cannot be parsed because it does not conform to the
+syntax described in L<perlpod>.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. nonempty ZE<lt>E<gt>]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * nonempty ZE<lt>E<gt>
+
+The C<< ZE<lt>E<gt> >> sequence is supposed to be empty.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. empty XE<lt>E<gt>]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * empty XE<lt>E<gt>
+
+The index entry specified contains nothing but whitespace.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Spurious text after =pod / =cut]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Spurious text after =pod / =cut
+
+The commands C<=pod> and C<=cut> do not take any arguments.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Spurious =cut command]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Spurious =cut command
+
+A C<=cut> command was found without a preceding POD paragraph.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Spurious =pod command]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Spurious =pod command
+
+A C<=pod> command was found after a preceding POD paragraph.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Spurious character.s. after =back]]></pattern>
+    <type>E</type>
+    <content><![CDATA[=item * Spurious character(s) after =back
+
+The C<=back> command does not take any arguments.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. multiple occurrence of link target I<name>]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * multiple occurrence of link target I<name>
+
+The POD file has some C<=item> and/or C<=head> commands that have
+the same text. Potential hyperlinks to such a text cannot be unique then.
+This warning is printed only with warning level greater than one.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. line containing nothing but whitespace in paragraph]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * line containing nothing but whitespace in paragraph
+
+There is some whitespace on a seemingly empty line. POD is very sensitive
+to such things, so this is flagged. B<vi> users switch on the B<list>
+option to avoid this problem.
+
+=begin _disabled_
+
+=item * file does not start with =head
+
+The file starts with a different POD directive than head.
+This is most probably something you do not want.
+
+=end _disabled_
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. previous =item has no contents]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * previous =item has no contents
+
+There is a list C<=item> right above the flagged line that has no
+text contents. You probably want to delete empty items.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. preceding non-item paragraph.s.]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * preceding non-item paragraph(s)
+
+A list introduced by C<=over> starts with a text or verbatim paragraph,
+but continues with C<=item>s. Move the non-item paragraph out of the
+C<=over>/C<=back> block.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. =item type mismatch .I<one> vs. I<two>.]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * =item type mismatch (I<one> vs. I<two>)
+
+A list started with e.g. a bullet-like C<=item> and continued with a
+numbered one. This is obviously inconsistent. For most translators the
+type of the I<first> C<=item> determines the type of the list.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. I<N> unescaped C<< E<lt>E<gt> >> in paragraph]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * I<N> unescaped C<< E<lt>E<gt> >> in paragraph
+
+Angle brackets not written as C<< E<lt>ltE<gt> >> and C<< E<lt>gtE<gt> >>
+can potentially cause errors as they could be misinterpreted as
+markup commands. This is only printed when the -warnings level is
+greater than 1.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Unknown entity]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * Unknown entity
+
+A character entity was found that does not belong to the standard
+ISO set or the POD specials C<verbar> and C<sol>.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. No items in =over]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * No items in =over
+
+The list opened with C<=over> does not contain any items.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. No argument for =item]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * No argument for =item
+
+C<=item> without any parameters is deprecated. It should either be followed
+by C<*> to indicate an unordered list, by a number (optionally followed
+by a dot) to indicate an ordered (numbered) list or simple text for a
+definition list.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. empty section in previous paragraph]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * empty section in previous paragraph
+
+The previous section (introduced by a C<=head> command) does not contain
+any text. This usually indicates that something is missing. Note: A
+C<=head1> followed immediately by C<=head2> does not trigger this warning.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. Verbatim paragraph in NAME section]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * Verbatim paragraph in NAME section
+
+The NAME section (C<=head1 NAME>) should consist of a single paragraph
+with the script/module name, followed by a dash `-' and a very short
+description of what the thing is good for.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. =headI<n> without preceding higher level]]></pattern>
+    <type>W</type>
+    <content><![CDATA[=item * =headI<n> without preceding higher level
+
+For example if there is a C<=head2> in the POD file prior to a
+C<=head1>.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. ignoring leading/trailing whitespace in link]]></pattern>
+    <type>H</type>
+    <content><![CDATA[=item * ignoring leading/trailing whitespace in link
+
+There is whitespace at the beginning or the end of the contents of
+LE<lt>...E<gt>.
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. .section. in '.page' deprecated]]></pattern>
+    <type>H</type>
+    <content><![CDATA[=item * (section) in '$page' deprecated
+
+There is a section detected in the page name of LE<lt>...E<gt>, e.g.
+C<< LE<lt>passwd(2)E<gt> >>. POD hyperlinks may point to POD documents only.
+Please write C<< CE<lt>passwd(2)E<gt> >> instead. Some formatters are able
+to expand this to appropriate code. For links to (builtin) functions,
+please say C<< LE<lt>perlfunc/mkdirE<gt> >>, without ().
+
+]]></content>
+  </eow>
+  <eow>
+    <pattern><![CDATA[. alternative text/node '.*?' contains non-escaped . or /]]></pattern>
+    <type>H</type>
+    <content><![CDATA[=item * alternative text/node '%s' contains non-escaped | or /
+
+The characters C<|> and C</> are special in the LE<lt>...E<gt> context.
+Although the hyperlink parser does its best to determine which "/" is
+text and which is a delimiter in case of doubt, one ought to escape
+these literal characters like this:
+
+  /     E<sol>
+  |     E<verbar>
+
+]]></content>
+  </eow>
+</podChecker>

@@ -1,6 +1,9 @@
 package ToBundle::Pod::PodChecker;
 use base qw(ToBundle::Pod);
 
+use strict;
+use warnings;
+
 sub _addData
 {
     my $self = shift;

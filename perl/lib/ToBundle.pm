@@ -18,7 +18,7 @@ use XML::Writer;
 push @Pod::POM::Node::Begin::ACCEPT, qw(over item head1 head2 head3 head4);
 
 use constant {
-    BASE   => File::Spec->catdir('..', qw(src org scriptkitty perl)),
+    BASE   => File::Spec->catdir('..', qw(src main java org scriptkitty perl)),
     SUFFIX => 'xml'
 };
 

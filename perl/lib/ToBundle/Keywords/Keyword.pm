@@ -4,6 +4,8 @@ use base qw(ToBundle::Keywords);
 use strict;
 use warnings;
 
+use B::Keywords;
+
 # meh, see '_getType'
 use Perl::Critic::Utils qw(:classification);
 
