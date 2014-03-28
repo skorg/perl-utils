@@ -1,15 +1,43 @@
-package ToBundle::Keyword::Words;
-use base qw(ToBundle::Keyword);
+package ToBundle::Keywords::Keyword;
+use base qw(ToBundle::Keywords);
 
 use strict;
 use warnings;
 
-# meh, see '_determine_builtin_type'
+# meh, see '_getType'
 use Perl::Critic::Utils qw(:classification);
 
-sub _determine_builtin_type
+sub _addData
 {
-    my ($keyword) = @_;
+    my $self = shift;
+    my ($root, $node, $data) = @_;
+
+    $self->SUPER::_addData($root, $node, $data);
+    
+    $data->{bareword} = _is_bareword($data->{keyword}); 
+}
+
+sub _getBundleName
+{
+    return 'keywords';
+}
+
+sub _getKeywords
+{
+    return [@B::Keywords::Functions, @B::Keywords::Barewords];
+}
+
+sub _getPDocArg
+{
+    return '-f';
+}
+
+sub _getType
+{
+    my $self = shift;
+    my ($item, $data) = @_;
+
+    my $keyword = $data->{keyword};
 
     #
     # for the record, i loathe importing methods into a namespace, however,
@@ -41,20 +69,23 @@ sub _determine_builtin_type
         return 'O';
     }
     
-    return 'Z';
+    return;
 }
 
-sub _getPDocArg
+sub _getXmlElementTag
 {
-    return '-f';
+    return 'keyword';
 }
 
-sub _getType
+sub _getXmlRootTag
 {
-    my $self = shift;
-    my ($root, $data) = @_;
+    return 'keywords';
+}
 
-    return _determine_builtin_type($data->{keyword});
+sub _is_bareword
+{
+    my ($word) = @_;
+    return (grep {$_ eq $word} @B::Keywords::Barewords) ? 'true' : 'false';
 }
 
 1;

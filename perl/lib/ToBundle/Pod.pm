@@ -9,6 +9,18 @@ use IO::File;
 
 use Pod::Find;
 
+sub _addData
+{
+    my $self = shift;
+    my ($root, $node, $data) = @_;
+    
+    #
+    # force the title into a scalar before prepping it - this isn't
+    # necessary, but makes debugging easier...
+    #    
+    $data->{pattern} = _prepPattern($self, scalar $node->title);
+}
+
 #
 # get the name of the pod file to convert
 # 
@@ -17,30 +29,22 @@ sub _getPodName
     die 'bad monkey, implement me!';
 }
 
-sub _prepContent
-{
-    my $self = shift;
-    my ($text) = @_;
+#sub _prepContent
+#{
+#    my $self = shift;
+#    my ($text) = @_;
+#    
+#    # replace any double spaces w/ a single space
+#    $text =~ s|\.\s{2,}|. |g;
+#
+#    return $text;
+#}
 
-    # trim leading/trailing whitespace
-    $text =~ s|^\s+||g;
-    $text =~ s|\s+$||g;
-
-    # trim leading/trailing newlines
-    $text =~ s|^\r*\n||;
-    $text =~ s|\r*\n$||;
-    
-    return $self->SUPER::_prepContent($text);
-}
-
-sub _prepTitle
+sub _prepPattern
 {
     my $self = shift;
     my ($text) = @_;
     
-    # replace any leading white space
-    $text =~ s/^\s//g;
-
     # replace '(){}[]$?|*+' with '.'
     $text =~ s/([\(\)\{\}\[\]\$\?\|\*\+\\])/./g;
 
@@ -50,7 +54,7 @@ sub _prepTitle
     # replace '%.[0-9]s' with '.*?'
     $text =~ s/%\.[0-9]s/.*?/g;
 
-    return $text;    
+    return $self->SUPER::_strip_ws_and_nl($text);
 }
 
 ## private
@@ -64,29 +68,19 @@ sub _getToConvert
     
     if (!$file)
     {
-        print STDERR "unable to find pod for '$pod', aborting...\n";
+        Logger::error("unable to find pod for [%s], aborting...", $pod);
         exit(1);
     }    
     
-    return [{pom => $self->_parsePod($file)}];
+    my $hash = $self->_getEmptyDataHash;
+    $hash->{pom} = $self->_parsePod($file);
+    
+    return [$hash];
 }
 
 sub _getXmlElementTag
 {
     return 'eow';
-}
-
-sub _writeTitles
-{
-    my $self = shift;
-    my ($writer, $titles) = @_;
-    
-    $writer->startTag('patterns');
-    foreach my $title (@{$titles})
-    {
-        $writer->cdataElement('pattern', $title);
-    }
-    $writer->endTag;
 }
 
 1;

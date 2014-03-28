@@ -4,15 +4,14 @@ use warnings;
 
 use fields qw(fh writer);
 
-use Data::Dumper;
+use Logger;
 
+use Data::Dumper;
 use File::Spec qw();
 use Hash::Util qw();
-
 use IO::File;
-
 use Pod::POM;
-
+use Tie::Hash::Indexed;
 use XML::Writer;
 
 # fix for Pod::POM bug 61083
@@ -48,14 +47,7 @@ sub convert
 
     foreach my $data (@{$self->_getToConvert})
     {
-        if (exists $data->{pom})
-        {
-            _podEntry($self, $data);
-        }
-        else
-        {
-            _convert($self, [$data->{keyword}], '', $data);
-        }
+        $self->_convert($data);
     }
 
     $self->{writer}->endTag;
@@ -63,9 +55,38 @@ sub convert
 
 ## sub-class
 
+sub _addData
+{
+    my $self = shift;
+    my ($root, $node, $data) = @_;
+
+    die 'bad monkey, implement me!';
+}
+
+sub _convert
+{
+    my $self = shift;
+    my ($data) = @_;
+    
+    foreach my $root ($self->_getRoot(delete $data->{pom}))
+    {
+        foreach my $node ($self->_getNodes($root))
+        {
+            $self->_addData($root, $node, $data);          
+            $self->_write($node, $data);          
+        }
+    }
+}
+
 sub _getBundleName
 {
     die 'bad monkey, implement me!';
+}
+
+sub _getEmptyDataHash
+{
+    tie my %hash, 'Tie::Hash::Indexed';
+    return \%hash;
 }
 
 sub _getDestDir
@@ -73,11 +94,7 @@ sub _getDestDir
     die 'bad monkey, implement me!';
 }
 
-#
-# get the actual content items - in some cases, this may just be $root' 
-# itself, other times further traversal will be required
-#
-sub _getItems
+sub _getNodes
 {
     my $self = shift;
     my ($root) = @_;
@@ -89,21 +106,13 @@ sub _getRoot
 {
     my $self = shift;
     my ($pom) = @_;
-    
+
     die 'bad monkey, implement me!';
 }
 
 sub _getToConvert
 {
     die 'bad moneky, implement me!';
-}
-
-sub _getType
-{
-    my $self = shift;
-    my ($root) = @_;
-
-    return;
 }
 
 #
@@ -123,6 +132,14 @@ sub _getXmlElementTag
     die 'bad moneky, implement me!';
 }
 
+sub _isEmpty
+{
+    my $self = shift;
+    my ($str) = @_;
+
+    return ($str && $str ne '') ? 0 : 1;
+}
+
 sub _parsePod
 {
     my $self = shift;
@@ -133,7 +150,7 @@ sub _parsePod
 
     if (!$parsed)
     {
-        printf STDERR "unable to pod: %s\n", $parser->error;
+        Logger::error("unable to pod: %s", $parser->error);
         exit(1);
     }
 
@@ -143,57 +160,49 @@ sub _parsePod
 sub _prepContent
 {
     my $self = shift;
+    my ($content) = @_;
+    
+    return $content;
+}
+
+sub _strip_ws_and_nl
+{
+    my $self = shift;
     my ($text) = @_;
     
-    # escape slashes
-#    $text =~ s|\\|\\\\|g;
-    # escape newlines   
-#    $text =~ s|\r*\n|\\n|g;
-    
+    # trim trailing/leading whitespace
+    $text =~ s|^\s+||g;
+    $text =~ s|\s+$||g;
+
+    # trim leading/trailing newlines
+    $text =~ s|^\r*\n||;
+    $text =~ s|\r*\n$||;
+
     # replace any double spaces w/ a single space
-    $text =~ s|\.\s{2,}|. |g;
+    # $text =~ s|\.[^\S\n]{2,}|\. |g;
 
-    return $text;
+    return $text;    
 }
 
-sub _prepTitle
+sub _writeBundleSpecificElements
 {
-    die 'bad moneky, implement me!';
-}
-
-sub _writeTitles
-{
-    die 'bad moneky, implement me!';
+    my $self = shift;
+    my ($writer, $data) = @_;
+    
+    foreach my $key (keys %{$data})
+    {
+        if ($key eq 'pattern')
+        {
+            $writer->cdataElement($key, $data->{$key});
+        }
+        else
+        {
+            $writer->dataElement($key, $data->{$key});
+        }
+    }
 }
 
 ## private
-
-sub _convert
-{
-    my $self = shift;
-    my ($titles, $content, $data) = @_;
-
-    $self->{writer}->startTag($self->_getXmlElementTag);
-
-    if (exists $data->{type})
-    {
-        $self->{writer}->dataElement('type', $data->{type});
-    }
-    
-    if (exists $data->{keyword})
-    {
-        $self->{writer}->cdataElement('name', $data->{keyword});
-    }
-
-    $self->_writeTitles($self->{writer}, $titles);
-    
-    if (!_isEmpty($content))
-    {
-        $self->{writer}->cdataElement('content', "$content");
-    }
-
-    $self->{writer}->endTag;
-}
 
 sub _getOutputFileHandle
 {
@@ -208,62 +217,31 @@ sub _getOutputFileHandle
     my $name = $self->_getBundleName;
     my $file = sprintf '%s.%s', File::Spec->catfile($dest, $name), SUFFIX;
 
-    printf STDERR "creating bundle: %s\n", $file;
+    Logger::info("creating bundle: %s", $file);
 
     return IO::File->new($file, 'w');
 }
 
-sub _isEmpty
-{
-    return ($_[0] && $_[0] ne '') ? 0 : 1;
-}
-
-sub _podEntry
+sub _write
 {
     my $self = shift;
-    my ($data) = @_;
+    my ($node, $data) = @_;
+    
+    $self->{writer}->startTag($self->_getXmlElementTag);    
 
-    my $pom = $data->{pom};
-    delete $data->{pom};
+    Logger::debug("bundle specific data %s", sub {Dumper($data)}); 
+    $self->_writeBundleSpecificElements($self->{writer}, $data);
 
-    # this should be the 'item' object that has the data we want
-    foreach my $root ($self->_getRoot($pom))
+    if (!$self->_isEmpty($node))
     {
-        # figure out what type we are - error, warning, etc...
-        if (my ($type) = $self->_getType($root, $data))
-        {
-            $data->{type} = $type;
-        }
-
         #
-        # meh...some pod documents allow for this:
+        # all sub-class implementations of '_prepContent' are disabled
         #
-        #   =item A
-        #   =item B
-        #     here's my content
-        #   =cut
-        #
-        # so store last 'item' seen so we can pull it's title on the
-        # next go around...
-        #
-        my @titles = ();
-        my $content;
-
-        # convert each of the items
-        foreach my $item ($self->_getItems($root))
-        {
-            push @titles, $self->_prepTitle($item->title);
-            
-            $content = $item->content;
-            if (_isEmpty($content))
-            {
-                next;
-            }
-        }
-               
-        $content = $self->_prepContent($content);
-        _convert($self, \@titles, $content, $data);
+        my $content = $self->_prepContent($node);
+        $self->{writer}->cdataElement('content', $node);
     }
+
+    $self->{writer}->endTag;
 }
 
 1;
