@@ -1,8 +1,6 @@
 package org.scriptkitty.perl.lang;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -14,40 +12,51 @@ public class TestSymbols
 
     @Test public void testArrayBuiltin()
     {
-        assertTrue(Symbol.isBuiltinSymbol("@ARGV"));
-        assertFalse(Symbol.isBuiltinSymbol("@foo"));
-
         Symbol symbol = Symbol.getSymbol("@ARGV");
-        assertNotNull(symbol);
+
+        assertFalse(symbol.isNull());
+        assertFalse(symbol.isFileHandle());
+        assertFalse(symbol.isHashBuiltin());
+        assertFalse(symbol.isScalarBuiltin());
 
         assertTrue(symbol.isArrayBuiltin());
+        assertTrue(Symbol.getSymbol("@foo").isNull());
+    }
 
-        assertNull(Symbol.getSymbol("@foo"));
+    @Test public void testIsBuiltin()
+    {
+        assertTrue(Symbol.isBuiltinSymbol("$a"));
+        assertTrue(Symbol.isBuiltinSymbol("@ARG"));
+        assertTrue(Symbol.isBuiltinSymbol("%ENV"));
+
+        assertFalse(Symbol.isBuiltinSymbol("$foo"));
+        assertFalse(Symbol.isBuiltinSymbol("@foo"));
+        assertFalse(Symbol.isBuiltinSymbol("%hash"));
     }
 
     @Test public void testIsHash()
     {
-        assertTrue(Symbol.isBuiltinSymbol("%ENV"));
-        assertFalse(Symbol.isBuiltinSymbol("@foo"));
-
         Symbol symbol = Symbol.getSymbol("%ENV");
-        assertNotNull(symbol);
+
+        assertFalse(symbol.isNull());
+        assertFalse(symbol.isFileHandle());
+        assertFalse(symbol.isArrayBuiltin());
+        assertFalse(symbol.isScalarBuiltin());
 
         assertTrue(symbol.isHashBuiltin());
-
-        assertNull(Symbol.getSymbol("@foo"));
+        assertTrue(Symbol.getSymbol("%foo").isNull());
     }
 
     @Test public void testIsScalar()
     {
-        assertTrue(Symbol.isBuiltinSymbol("$a"));
-        assertFalse(Symbol.isBuiltinSymbol("$foo"));
-
         Symbol symbol = Symbol.getSymbol("$a");
-        assertNotNull(symbol);
+
+        assertFalse(symbol.isNull());
+        assertFalse(symbol.isFileHandle());
+        assertFalse(symbol.isHashBuiltin());
+        assertFalse(symbol.isArrayBuiltin());
 
         assertTrue(symbol.isScalarBuiltin());
-
-        assertNull(Symbol.getSymbol("$foo"));
+        assertTrue(Symbol.getSymbol("$foo").isNull());
     }
 }

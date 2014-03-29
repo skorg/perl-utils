@@ -20,7 +20,7 @@ public class PodErrorOrWarn extends AbstractErrorOrWarn
 
     private static final ResourceBundle bundle = ResourceBundleFactory.getBundle(podErrorsAndWarnings);
 
-    private static final PodErrorOrWarn UNKNOWN = new PodErrorOrWarn("", MSG, ClassificationType.U);
+    private static final PodErrorOrWarn UNKNOWN = new PodErrorOrWarn();
 
     //~ Enums
 
@@ -44,12 +44,8 @@ public class PodErrorOrWarn extends AbstractErrorOrWarn
 
     private PodErrorOrWarn()
     {
-    }
-
-    private PodErrorOrWarn(String regexp, String content, ClassificationType type)
-    {
-        super(regexp, content);
-        this.type = type;
+        super();
+        this.type = ClassificationType.U;
     }
 
     //~ Methods

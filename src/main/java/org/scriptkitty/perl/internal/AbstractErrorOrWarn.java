@@ -22,30 +22,20 @@ public class AbstractErrorOrWarn
 
     protected AbstractErrorOrWarn()
     {
-        // required by jaxb
-    }
-
-//    public final String getContent()
-//    {
-//        return content;
-//    }
-
-    protected AbstractErrorOrWarn(String regexp, String content)
-    {
-        this.content = content;
-        setPattern(regexp);
+        setPattern("");
+        this.content = "";
     }
 
     //~ Methods
 
-    public final String getPattern()
-    {
-        return pattern.toString();
-    }
-
     public final boolean matches(String line)
     {
         return pattern.matcher(line).find();
+    }
+
+    @Override public final String toString()
+    {
+        return pattern.toString();
     }
 
     protected static <T extends AbstractErrorOrWarn> T get(String line, ResourceBundle bundle, T unknown)
@@ -60,6 +50,12 @@ public class AbstractErrorOrWarn
         }
 
         return unknown;
+    }
+
+    protected final String getContent()
+    {
+        // TODO: determine how to handle pod content
+        return content;
     }
 
     @XmlElement(name = "pattern")

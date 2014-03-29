@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scriptkitty.perl.internal.AbstractKeyOrSym;
 import org.scriptkitty.perl.internal.Constants;
 import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 
-@XmlRootElement(name = "keyword")
-public class Keyword
+@XmlRootElement public class Keyword extends AbstractKeyOrSym
 {
     //~ Static fields/initializers
 
@@ -24,9 +24,11 @@ public class Keyword
 
     private static ResourceBundle bundle = ResourceBundleFactory.getBundle(keywords);
 
+    private static final Keyword NULL = new Keyword();
+
     //~ Enums
 
-    @XmlEnum private enum KeywordType
+    @XmlEnum private enum Type
     {
         /**
          * builtin that accepts a list
@@ -64,11 +66,15 @@ public class Keyword
 
     @XmlElement private boolean bareword;
 
-    @XmlElement private KeywordType type;
+    @XmlElement private Type type;
 
-    @XmlElement private String content;
+    //~ Constructors
 
-    @XmlElement private String keyword;
+    private Keyword()
+    {
+        super();
+        this.type = Type.NULL;
+    }
 
     //~ Methods
 
@@ -81,12 +87,7 @@ public class Keyword
      */
     public static Keyword getKeyword(String keyword)
     {
-        if (!bundle.containsKey(keyword))
-        {
-            return null;
-        }
-
-        return (Keyword) bundle.getObject(keyword);
+        return AbstractKeyOrSym.get(keyword, bundle, NULL);
     }
 
     /**
@@ -118,32 +119,32 @@ public class Keyword
 
     public boolean isBuiltin()
     {
-        return (type != KeywordType.NULL);
+        return (type != Type.NULL);
     }
 
     public boolean isBuiltinWithListContext()
     {
-        return (type == KeywordType.L);
+        return (type == Type.L);
     }
 
     public boolean isBuiltinWithMultipleArgs()
     {
-        return (type == KeywordType.M);
+        return (type == Type.M);
     }
 
     public boolean isBuiltinWithNoArgs()
     {
-        return (type == KeywordType.N);
+        return (type == Type.N);
     }
 
     public boolean isBuiltinWithOneArg()
     {
-        return (type == KeywordType.R);
+        return (type == Type.R);
     }
 
     public boolean isBuiltinWithOptionalArg()
     {
-        return (type == KeywordType.O);
+        return (type == Type.O);
     }
 
     public boolean isBuiltinWithZeroOrOneArgs(String word)
@@ -221,6 +222,11 @@ public class Keyword
         return Constants.NO.equals(keyword);
     }
 
+    @Override public boolean isNull()
+    {
+        return (type == Type.NULL);
+    }
+
     public boolean isPackageKeyword()
     {
         return Constants.PACKAGE.equals(keyword);
@@ -261,7 +267,7 @@ public class Keyword
         return Constants.USE.equals(keyword);
     }
 
-    public boolean isV6Keyword(String s)
+    public boolean isV6Keyword()
     {
         return Constants.V6.equals(keyword);
     }
@@ -274,11 +280,6 @@ public class Keyword
     public boolean isWhileKeyword()
     {
         return Constants.WHILE.equals(keyword);
-    }
-
-    @Override public String toString()
-    {
-        return keyword;
     }
 
     private boolean isOneOf(String s, String[] choices)

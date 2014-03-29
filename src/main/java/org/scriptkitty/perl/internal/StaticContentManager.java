@@ -41,7 +41,7 @@ class StaticContentManager implements IContentManager
 
             @Override protected String getKey(CompilerErrorOrWarn errorOrWarning)
             {
-                return errorOrWarning.getPattern();
+                return errorOrWarning.toString();
             }
         };
     }
@@ -73,7 +73,7 @@ class StaticContentManager implements IContentManager
 
             @Override protected String getKey(PodErrorOrWarn errorOrWarning)
             {
-                return errorOrWarning.getPattern();
+                return errorOrWarning.toString();
             }
         };
     }

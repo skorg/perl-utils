@@ -24,7 +24,7 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
 
     private static final ResourceBundle bundle = ResourceBundleFactory.getBundle(compilerErrorsAndWarnings);
 
-    private static final CompilerErrorOrWarn UNKNOWN = new CompilerErrorOrWarn("", MSG, ClassificationType.U);
+    private static final CompilerErrorOrWarn UNKNOWN = new CompilerErrorOrWarn();
 
     //~ Enums
 
@@ -58,15 +58,10 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
 
     private CompilerErrorOrWarn()
     {
-        // required by jaxb
-    }
-
-    private CompilerErrorOrWarn(String regexp, String content, CompilerErrorOrWarn.ClassificationType type)
-    {
-        super(regexp, content);
+        super();
 
         this.classifications = new ArrayList<>(1);
-        this.classifications.add(new Classification(type));
+        this.classifications.add(new Classification(ClassificationType.U));
     }
 
     //~ Methods

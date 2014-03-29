@@ -7,10 +7,11 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scriptkitty.perl.internal.AbstractKeyOrSym;
 import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 
-@XmlRootElement public class Symbol
+@XmlRootElement public class Symbol extends AbstractKeyOrSym
 {
     //~ Static fields/initializers
 
@@ -18,27 +19,33 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
     private static ResourceBundle bundle = ResourceBundleFactory.getBundle(symbols);
 
+    private static final Symbol NULL = new Symbol();
+
     //~ Enums
 
-    @XmlEnum private enum SymbolType
+    @XmlEnum private enum Type
     {
         @XmlEnumValue("A")
         A,
         @XmlEnumValue("F")
         F,
         @XmlEnumValue("H")
-        H,
+        H, NULL,
         @XmlEnumValue("S")
         S
     }
 
     //~ Instance fields
 
-    @XmlElement private String content;
+    @XmlElement private Type type;
 
-    @XmlElement private String keyword;
+    //~ Constructors
 
-    @XmlElement private SymbolType type;
+    private Symbol()
+    {
+        super();
+        this.type = Type.NULL;
+    }
 
     //~ Methods
 
@@ -51,12 +58,7 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
      */
     public static Symbol getSymbol(String symbol)
     {
-        if (!bundle.containsKey(symbol))
-        {
-            return null;
-        }
-
-        return (Symbol) bundle.getObject(symbol);
+        return AbstractKeyOrSym.get(symbol, bundle, NULL);
     }
 
     /**
@@ -78,7 +80,7 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
      */
     public boolean isArrayBuiltin()
     {
-        return (type == SymbolType.A);
+        return (type == Type.A);
     }
 
     /**
@@ -88,7 +90,7 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
      */
     public boolean isFileHandle()
     {
-        return (type == SymbolType.F);
+        return (type == Type.F);
     }
 
     /**
@@ -98,7 +100,17 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
      */
     public boolean isHashBuiltin()
     {
-        return (type == SymbolType.H);
+        return (type == Type.H);
+    }
+
+    /**
+     * is this the '<code>null</code>' object
+     *
+     * @return <code>true</code> if hash builtin, <code>false</code> otherwise
+     */
+    @Override public boolean isNull()
+    {
+        return (type == Type.NULL);
     }
 
     /**
@@ -108,14 +120,6 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
      */
     public boolean isScalarBuiltin()
     {
-        return (type == SymbolType.S);
-    }
-
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override public String toString()
-    {
-        return keyword;
+        return (type == Type.S);
     }
 }
