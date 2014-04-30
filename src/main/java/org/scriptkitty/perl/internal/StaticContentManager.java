@@ -1,15 +1,13 @@
 package org.scriptkitty.perl.internal;
 
-import org.scriptkitty.perl.compiler.CompilerErrorOrWarn;
+import org.scriptkitty.perl.errorwarn.CompilerErrorOrWarn;
+import org.scriptkitty.perl.errorwarn.PodErrorOrWarn;
 import org.scriptkitty.perl.lang.Keyword;
 import org.scriptkitty.perl.lang.Symbol;
-import org.scriptkitty.perl.pod.PodErrorOrWarn;
 
 
 class StaticContentManager implements IContentManager
 {
-    //~ Methods
-
     @Override public StaticContentProvider<?> getContentProvider(String baseName) throws InstantiationException
     {
         if (CompilerErrorOrWarn.compilerErrorsAndWarnings.equals(baseName))

@@ -8,15 +8,12 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scriptkitty.perl.internal.AbstractKeyOrSym;
 import org.scriptkitty.perl.internal.Constants;
 import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 
 @XmlRootElement public class Keyword extends AbstractKeyOrSym
 {
-    //~ Static fields/initializers
-
     public static final String keywords = "keywords";
 
     /** pragma pattern - <code>/^[a-z][a-z\\d]*$/</code> */
@@ -25,8 +22,6 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
     private static ResourceBundle bundle = ResourceBundleFactory.getBundle(keywords);
 
     private static final Keyword NULL = new Keyword();
-
-    //~ Enums
 
     @XmlEnum private enum Type
     {
@@ -62,21 +57,15 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
         R
     }
 
-    //~ Instance fields
-
     @XmlElement private boolean bareword;
 
     @XmlElement private Type type;
-
-    //~ Constructors
 
     private Keyword()
     {
         super();
         this.type = Type.NULL;
     }
-
-    //~ Methods
 
     /**
      * get the <code>Keyword</code> object that represents the specified perl builtin

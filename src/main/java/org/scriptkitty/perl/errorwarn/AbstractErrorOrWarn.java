@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.internal;
+package org.scriptkitty.perl.errorwarn;
 
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -6,27 +6,19 @@ import java.util.regex.Pattern;
 import javax.xml.bind.annotation.XmlElement;
 
 
-public class AbstractErrorOrWarn
+abstract class AbstractErrorOrWarn
 {
-    //~ Static fields/initializers
-
     protected static final String MSG = "No explanation available for this message";
-
-    //~ Instance fields
 
     private Pattern pattern;
 
     @XmlElement private String content;
-
-    //~ Constructors
 
     protected AbstractErrorOrWarn()
     {
         setPattern("");
         this.content = "";
     }
-
-    //~ Methods
 
     public final boolean matches(String line)
     {

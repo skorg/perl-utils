@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.scriptkitty.perl-utils
 Bundle-Vendor: scriptkitty.org
 Bundle-Version: 2.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.scriptkitty.perl.compiler;version="2.0.0";uses:="org.scriptkitty.perl.util",
+Export-Package: org.scriptkitty.perl.errorwarn;version="2.0.0";uses:="org.scriptkitty.perl.util",
  org.scriptkitty.perl.exec;version="2.0.0",
  org.scriptkitty.perl.lang;version="2.0.0",
  org.scriptkitty.perl.util;version="2.0.0"

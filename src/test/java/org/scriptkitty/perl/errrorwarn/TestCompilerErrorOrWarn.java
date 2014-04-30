@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.compiler;
+package org.scriptkitty.perl.errrorwarn;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,15 +7,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 
 import org.junit.Test;
-
-import org.scriptkitty.perl.compiler.CompilerErrorOrWarn.Classification;
-import org.scriptkitty.perl.compiler.CompilerErrorOrWarn.ClassificationType;
+import org.scriptkitty.perl.errorwarn.CompilerErrorOrWarn;
+import org.scriptkitty.perl.errorwarn.CompilerErrorOrWarn.Classification;
+import org.scriptkitty.perl.errorwarn.CompilerErrorOrWarn.ClassificationType;
 
 
 public class TestCompilerErrorOrWarn
 {
-    //~ Methods
-
     @Test public void testCompilerError()
     {
         String line = "Global symbol \"$foo\" requires explicit package name at test.pl line 3.";

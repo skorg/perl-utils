@@ -1,5 +1,6 @@
 package org.scriptkitty.perl.lang;
 
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -7,21 +8,16 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scriptkitty.perl.internal.AbstractKeyOrSym;
 import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 
 @XmlRootElement public class Symbol extends AbstractKeyOrSym
 {
-    //~ Static fields/initializers
-
     public static final String symbols = "symbols";
 
     private static ResourceBundle bundle = ResourceBundleFactory.getBundle(symbols);
 
     private static final Symbol NULL = new Symbol();
-
-    //~ Enums
 
     @XmlEnum private enum Type
     {
@@ -35,11 +31,7 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
         S
     }
 
-    //~ Instance fields
-
     @XmlElement private Type type;
-
-    //~ Constructors
 
     private Symbol()
     {
@@ -47,7 +39,49 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
         this.type = Type.NULL;
     }
 
-    //~ Methods
+    public static Collection<Symbol> getArrayBuiltins()
+    {
+        return AbstractKeyOrSym.find(bundle, new IFindCallback<Symbol>()
+            {
+                @Override public boolean isWanted(Symbol object)
+                {
+                    return object.isArrayBuiltin();
+                }
+            });
+    }
+
+    public static Collection<Symbol> getFileHandleBuiltins()
+    {
+        return AbstractKeyOrSym.find(bundle, new IFindCallback<Symbol>()
+            {
+                @Override public boolean isWanted(Symbol object)
+                {
+                    return object.isFileHandleBuiltin();
+                }
+            });
+    }
+
+    public static Collection<Symbol> getHashBuiltins()
+    {
+        return AbstractKeyOrSym.find(bundle, new IFindCallback<Symbol>()
+            {
+                @Override public boolean isWanted(Symbol object)
+                {
+                    return object.isHashBuiltin();
+                }
+            });
+    }
+
+    public static Collection<Symbol> getScalarBuiltins()
+    {
+        return AbstractKeyOrSym.find(bundle, new IFindCallback<Symbol>()
+            {
+                @Override public boolean isWanted(Symbol object)
+                {
+                    return object.isScalarBuiltin();
+                }
+            });
+    }
 
     /**
      * get the <code>Symbol</code> object that represents the specified perl builtin
@@ -88,7 +122,7 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
      *
      * @return <code>true</code> if file handle builtin, <code>false</code> otherwise
      */
-    public boolean isFileHandle()
+    public boolean isFileHandleBuiltin()
     {
         return (type == Type.F);
     }

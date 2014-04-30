@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.compiler;
+package org.scriptkitty.perl.errorwarn;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
 import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
 

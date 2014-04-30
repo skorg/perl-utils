@@ -5,14 +5,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import org.scriptkitty.perl.pod.PodErrorOrWarn.ClassificationType;
+import org.scriptkitty.perl.errorwarn.PodErrorOrWarn;
+import org.scriptkitty.perl.errorwarn.PodErrorOrWarn.ClassificationType;
 
 
 public class TestPodErrorOrWarn
 {
-    //~ Methods
-
     @Test public void testPodError()
     {
         String line = "=back without previous =over at line 2 in file test.pl";

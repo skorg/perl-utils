@@ -8,14 +8,12 @@ import org.junit.Test;
 
 public class TestSymbols
 {
-    //~ Methods
-
     @Test public void testArrayBuiltin()
     {
         Symbol symbol = Symbol.getSymbol("@ARGV");
 
         assertFalse(symbol.isNull());
-        assertFalse(symbol.isFileHandle());
+        assertFalse(symbol.isFileHandleBuiltin());
         assertFalse(symbol.isHashBuiltin());
         assertFalse(symbol.isScalarBuiltin());
 
@@ -39,7 +37,7 @@ public class TestSymbols
         Symbol symbol = Symbol.getSymbol("%ENV");
 
         assertFalse(symbol.isNull());
-        assertFalse(symbol.isFileHandle());
+        assertFalse(symbol.isFileHandleBuiltin());
         assertFalse(symbol.isArrayBuiltin());
         assertFalse(symbol.isScalarBuiltin());
 
@@ -52,7 +50,7 @@ public class TestSymbols
         Symbol symbol = Symbol.getSymbol("$a");
 
         assertFalse(symbol.isNull());
-        assertFalse(symbol.isFileHandle());
+        assertFalse(symbol.isFileHandleBuiltin());
         assertFalse(symbol.isHashBuiltin());
         assertFalse(symbol.isArrayBuiltin());
 

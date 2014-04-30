@@ -21,7 +21,7 @@ sub _getBundleName
 
 sub _getDestDir
 {
-    return 'pod'
+    return 'errorwarn'
 }
 
 sub _getNodes

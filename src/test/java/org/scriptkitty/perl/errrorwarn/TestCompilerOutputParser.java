@@ -1,23 +1,21 @@
-package org.scriptkitty.perl.compiler;
+package org.scriptkitty.perl.errrorwarn;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
-import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
+import org.scriptkitty.perl.errorwarn.CompilerErrorOrWarn;
+import org.scriptkitty.perl.errorwarn.CompilerOutput;
 
 
 public class TestCompilerOutputParser
 {
-    //~ Methods
-
     @Test public void testSingleLine()
     {
         String line = "Global symbol \"$foo\" requires explicit package name at test.pl line 3.";
 
         CompilerOutput output = CompilerOutput.parse(line);
-        AbstractErrorOrWarn errorOrWarn = output.getErrorOrWarning();
+        CompilerErrorOrWarn errorOrWarn = output.getErrorOrWarning();
 
         assertNotNull(output);
 

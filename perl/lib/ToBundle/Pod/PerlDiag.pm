@@ -64,7 +64,7 @@ sub _getClassifications
 
 sub _getDestDir
 {
-    return 'compiler';
+    return 'errorwarn';
 }
 
 sub _getNodes

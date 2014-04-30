@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.compiler;
+package org.scriptkitty.perl.errorwarn;
 
 import java.util.ArrayList;
 import java.util.List;

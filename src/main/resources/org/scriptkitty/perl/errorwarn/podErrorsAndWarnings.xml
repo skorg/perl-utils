@@ -1,6 +1,6 @@
 <podChecker>
   <eow>
-    <pattern><![CDATA[. empty =headn]]></pattern>
+    <pattern><![CDATA[empty =headn]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * empty =headn
 
@@ -10,7 +10,7 @@ heading!
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. =over on line I<N> without closing =back]]></pattern>
+    <pattern><![CDATA[=over on line I<N> without closing =back]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * =over on line I<N> without closing =back
 
@@ -20,7 +20,7 @@ next heading (C<=head1> or C<=head2>) or the end of the file.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. =item without previous =over]]></pattern>
+    <pattern><![CDATA[=item without previous =over]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * =item without previous =over
 
@@ -37,7 +37,7 @@ C<=over>/C<=back> block.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. No argument for =begin]]></pattern>
+    <pattern><![CDATA[No argument for =begin]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * No argument for =begin
 
@@ -47,7 +47,7 @@ specification.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. =end without =begin]]></pattern>
+    <pattern><![CDATA[=end without =begin]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * =end without =begin
 
@@ -56,7 +56,7 @@ A standalone C<=end> command was found.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Nested =begin's]]></pattern>
+    <pattern><![CDATA[Nested =begin's]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Nested =begin's
 
@@ -67,7 +67,7 @@ a time.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. =for without formatter specification]]></pattern>
+    <pattern><![CDATA[=for without formatter specification]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * =for without formatter specification
 
@@ -76,7 +76,7 @@ There is no specification of the formatter after the C<=for> command.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Apparent command =foo not preceded by blank line]]></pattern>
+    <pattern><![CDATA[Apparent command =foo not preceded by blank line]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Apparent command =foo not preceded by blank line
 
@@ -89,7 +89,7 @@ such as
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. unresolved internal link I<NAME>]]></pattern>
+    <pattern><![CDATA[unresolved internal link I<NAME>]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * unresolved internal link I<NAME>
 
@@ -100,7 +100,7 @@ C<"">.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Unknown command "I<CMD>"]]></pattern>
+    <pattern><![CDATA[Unknown command "I<CMD>"]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Unknown command "I<CMD>"
 
@@ -111,7 +111,7 @@ C<=for>, C<=pod>, C<=cut>
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Unknown interior-sequence "I<SEQ>"]]></pattern>
+    <pattern><![CDATA[Unknown interior-sequence "I<SEQ>"]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Unknown interior-sequence "I<SEQ>"
 
@@ -123,7 +123,7 @@ C<< ZE<lt>E<gt> >>
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. nested commands I<CMD>E<lt>...I<CMD>E<lt>...E<gt>...E<gt>]]></pattern>
+    <pattern><![CDATA[nested commands I<CMD>E<lt>...I<CMD>E<lt>...E<gt>...E<gt>]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * nested commands I<CMD>E<lt>...I<CMD>E<lt>...E<gt>...E<gt>
 
@@ -133,7 +133,7 @@ does not make sense.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. garbled entity I<STRING>]]></pattern>
+    <pattern><![CDATA[garbled entity I<STRING>]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * garbled entity I<STRING>
 
@@ -142,7 +142,7 @@ The I<STRING> found cannot be interpreted as a character entity.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Entity number out of range]]></pattern>
+    <pattern><![CDATA[Entity number out of range]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Entity number out of range
 
@@ -151,7 +151,7 @@ An entity specified by number (dec, hex, oct) is out of range (1-255).
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. malformed link LE<lt>E<gt>]]></pattern>
+    <pattern><![CDATA[malformed link LE<lt>E<gt>]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * malformed link LE<lt>E<gt>
 
@@ -161,7 +161,7 @@ syntax described in L<perlpod>.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. nonempty ZE<lt>E<gt>]]></pattern>
+    <pattern><![CDATA[nonempty ZE<lt>E<gt>]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * nonempty ZE<lt>E<gt>
 
@@ -170,7 +170,7 @@ The C<< ZE<lt>E<gt> >> sequence is supposed to be empty.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. empty XE<lt>E<gt>]]></pattern>
+    <pattern><![CDATA[empty XE<lt>E<gt>]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * empty XE<lt>E<gt>
 
@@ -179,7 +179,7 @@ The index entry specified contains nothing but whitespace.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Spurious text after =pod / =cut]]></pattern>
+    <pattern><![CDATA[Spurious text after =pod / =cut]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Spurious text after =pod / =cut
 
@@ -188,7 +188,7 @@ The commands C<=pod> and C<=cut> do not take any arguments.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Spurious =cut command]]></pattern>
+    <pattern><![CDATA[Spurious =cut command]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Spurious =cut command
 
@@ -197,7 +197,7 @@ A C<=cut> command was found without a preceding POD paragraph.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Spurious =pod command]]></pattern>
+    <pattern><![CDATA[Spurious =pod command]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Spurious =pod command
 
@@ -206,7 +206,7 @@ A C<=pod> command was found after a preceding POD paragraph.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Spurious character.s. after =back]]></pattern>
+    <pattern><![CDATA[Spurious character.s. after =back]]></pattern>
     <type>E</type>
     <content><![CDATA[=item * Spurious character(s) after =back
 
@@ -215,7 +215,7 @@ The C<=back> command does not take any arguments.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. multiple occurrence of link target I<name>]]></pattern>
+    <pattern><![CDATA[multiple occurrence of link target I<name>]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * multiple occurrence of link target I<name>
 
@@ -226,7 +226,7 @@ This warning is printed only with warning level greater than one.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. line containing nothing but whitespace in paragraph]]></pattern>
+    <pattern><![CDATA[line containing nothing but whitespace in paragraph]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * line containing nothing but whitespace in paragraph
 
@@ -246,7 +246,7 @@ This is most probably something you do not want.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. previous =item has no contents]]></pattern>
+    <pattern><![CDATA[previous =item has no contents]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * previous =item has no contents
 
@@ -256,7 +256,7 @@ text contents. You probably want to delete empty items.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. preceding non-item paragraph.s.]]></pattern>
+    <pattern><![CDATA[preceding non-item paragraph.s.]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * preceding non-item paragraph(s)
 
@@ -267,7 +267,7 @@ C<=over>/C<=back> block.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. =item type mismatch .I<one> vs. I<two>.]]></pattern>
+    <pattern><![CDATA[=item type mismatch .I<one> vs. I<two>.]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * =item type mismatch (I<one> vs. I<two>)
 
@@ -278,7 +278,7 @@ type of the I<first> C<=item> determines the type of the list.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. I<N> unescaped C<< E<lt>E<gt> >> in paragraph]]></pattern>
+    <pattern><![CDATA[I<N> unescaped C<< E<lt>E<gt> >> in paragraph]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * I<N> unescaped C<< E<lt>E<gt> >> in paragraph
 
@@ -290,7 +290,7 @@ greater than 1.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Unknown entity]]></pattern>
+    <pattern><![CDATA[Unknown entity]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * Unknown entity
 
@@ -300,7 +300,7 @@ ISO set or the POD specials C<verbar> and C<sol>.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. No items in =over]]></pattern>
+    <pattern><![CDATA[No items in =over]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * No items in =over
 
@@ -309,7 +309,7 @@ The list opened with C<=over> does not contain any items.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. No argument for =item]]></pattern>
+    <pattern><![CDATA[No argument for =item]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * No argument for =item
 
@@ -321,7 +321,7 @@ definition list.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. empty section in previous paragraph]]></pattern>
+    <pattern><![CDATA[empty section in previous paragraph]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * empty section in previous paragraph
 
@@ -332,7 +332,7 @@ C<=head1> followed immediately by C<=head2> does not trigger this warning.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. Verbatim paragraph in NAME section]]></pattern>
+    <pattern><![CDATA[Verbatim paragraph in NAME section]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * Verbatim paragraph in NAME section
 
@@ -343,7 +343,7 @@ description of what the thing is good for.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. =headI<n> without preceding higher level]]></pattern>
+    <pattern><![CDATA[=headI<n> without preceding higher level]]></pattern>
     <type>W</type>
     <content><![CDATA[=item * =headI<n> without preceding higher level
 
@@ -353,7 +353,7 @@ C<=head1>.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. ignoring leading/trailing whitespace in link]]></pattern>
+    <pattern><![CDATA[ignoring leading/trailing whitespace in link]]></pattern>
     <type>H</type>
     <content><![CDATA[=item * ignoring leading/trailing whitespace in link
 
@@ -363,7 +363,7 @@ LE<lt>...E<gt>.
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. .section. in '.page' deprecated]]></pattern>
+    <pattern><![CDATA[.section. in '.page' deprecated]]></pattern>
     <type>H</type>
     <content><![CDATA[=item * (section) in '$page' deprecated
 
@@ -376,7 +376,7 @@ please say C<< LE<lt>perlfunc/mkdirE<gt> >>, without ().
 ]]></content>
   </eow>
   <eow>
-    <pattern><![CDATA[. alternative text/node '.*?' contains non-escaped . or /]]></pattern>
+    <pattern><![CDATA[alternative text/node '.*?' contains non-escaped . or /]]></pattern>
     <type>H</type>
     <content><![CDATA[=item * alternative text/node '%s' contains non-escaped | or /
 

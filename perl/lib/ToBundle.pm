@@ -4,13 +4,18 @@ use warnings;
 
 use fields qw(fh writer);
 
-use Logger;
-
 use Data::Dumper;
+
 use File::Spec qw();
 use Hash::Util qw();
+
 use IO::File;
+
+use Logger;
+
+use Pod::Find;
 use Pod::POM;
+
 use Tie::Hash::Indexed;
 use XML::Writer;
 
@@ -18,7 +23,7 @@ use XML::Writer;
 push @Pod::POM::Node::Begin::ACCEPT, qw(over item head1 head2 head3 head4);
 
 use constant {
-    BASE   => File::Spec->catdir('..', qw(src main java org scriptkitty perl)),
+    BASE   => File::Spec->catdir('..', qw(src main resources org scriptkitty perl)),
     SUFFIX => 'xml'
 };
 
