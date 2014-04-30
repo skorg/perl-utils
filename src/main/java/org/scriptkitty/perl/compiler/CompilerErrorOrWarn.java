@@ -18,15 +18,11 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
 @XmlRootElement(name = "eow")
 public class CompilerErrorOrWarn extends AbstractErrorOrWarn
 {
-    //~ Static fields/initializers
-
     public static final String compilerErrorsAndWarnings = "compilerErrorsAndWarnings";
 
     private static final ResourceBundle bundle = ResourceBundleFactory.getBundle(compilerErrorsAndWarnings);
 
     private static final CompilerErrorOrWarn UNKNOWN = new CompilerErrorOrWarn();
-
-    //~ Enums
 
     @XmlEnum public enum ClassificationType
     {
@@ -48,13 +44,9 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
         X
     }
 
-    //~ Instance fields
-
     @XmlElement(name = "classification")
     @XmlElementWrapper(name = "classifications")
     private List<Classification> classifications;
-
-    //~ Constructors
 
     private CompilerErrorOrWarn()
     {
@@ -63,8 +55,6 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
         this.classifications = new ArrayList<>(1);
         this.classifications.add(new Classification(ClassificationType.U));
     }
-
-    //~ Methods
 
     public static CompilerErrorOrWarn getErrorOrWarning(String line)
     {
@@ -76,13 +66,29 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
         return classifications;
     }
 
-    //~ Inner Classes
+    public boolean isWarning()
+    {
+        switch (classifications.get(0).getType())
+        {
+            case W:
+            case D:
+            case S:
+            {
+                return true;
+            }
+            default:
+            {
+                return false;
+            }
+        }
+    }
 
     @XmlRootElement(name = "classification")
     public static class Classification
     {
         @XmlElement(name = "type")
         private ClassificationType type;
+
         @XmlElement(name = "pragma")
         @XmlElementWrapper(name = "pragmas")
         private Collection<String> pragmas;
@@ -106,6 +112,5 @@ public class CompilerErrorOrWarn extends AbstractErrorOrWarn
         {
             return type;
         }
-
     }
 }

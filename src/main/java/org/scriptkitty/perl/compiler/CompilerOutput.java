@@ -5,21 +5,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.scriptkitty.perl.internal.AbstractErrorOrWarn;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 public final class CompilerOutput
 {
-    //~ Static fields/initializers
-
     private static final Pattern compiler = Pattern.compile("^(.*) at (\\S+) line (\\d+)[\\.,]?");
 
     private static final Logger logger = LoggerFactory.getLogger(CompilerOutput.class);
-
-    //~ Instance fields
 
     private final int lineNo;
 
@@ -27,16 +21,12 @@ public final class CompilerOutput
 
     private final String path;
 
-    //~ Constructors
-
     CompilerOutput(String message, String path, int lineNo)
     {
         this.message = message;
         this.path = path;
         this.lineNo = lineNo;
     }
-
-    //~ Methods
 
     public static List<CompilerOutput> parse(List<String> lines)
     {
@@ -66,7 +56,7 @@ public final class CompilerOutput
         return new CompilerOutput(matcher.group(1), matcher.group(2), parseInt(matcher.group(3), line));
     }
 
-    public AbstractErrorOrWarn getErrorOrWarning()
+    public CompilerErrorOrWarn getErrorOrWarning()
     {
         return CompilerErrorOrWarn.getErrorOrWarning(message);
     }
