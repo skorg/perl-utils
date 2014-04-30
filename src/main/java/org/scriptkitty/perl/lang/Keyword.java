@@ -1,5 +1,6 @@
 package org.scriptkitty.perl.lang;
 
+import java.util.Collection;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -16,12 +17,12 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
 {
     public static final String keywords = "keywords";
 
-    /** pragma pattern - <code>/^[a-z][a-z\\d]*$/</code> */
-    private static final Pattern PRAGMA = Pattern.compile("^[a-z][a-z\\d]*$");
-
     private static ResourceBundle bundle = ResourceBundleFactory.getBundle(keywords);
 
     private static final Keyword NULL = new Keyword();
+
+    /** pragma pattern - <code>/^[a-z][a-z\\d]*$/</code> */
+    private static final Pattern PRAGMA = Pattern.compile("^[a-z][a-z\\d]*$");
 
     @XmlEnum private enum Type
     {
@@ -65,6 +66,28 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
     {
         super();
         this.type = Type.NULL;
+    }
+
+    public static Collection<Keyword> getBarewords()
+    {
+        return AbstractKeyOrSym.find(bundle, new IFindCallback<Keyword>()
+            {
+                @Override public boolean isWanted(Keyword object)
+                {
+                    return object.isBareword();
+                }
+            });
+    }
+
+    public static Collection<Keyword> getFunctions()
+    {
+        return AbstractKeyOrSym.find(bundle, new IFindCallback<Keyword>()
+            {
+                @Override public boolean isWanted(Keyword object)
+                {
+                    return !object.isBareword();
+                }
+            });
     }
 
     /**
@@ -224,6 +247,11 @@ import org.scriptkitty.perl.internal.ResourceBundleFactory;
     public boolean isParentKeyword()
     {
         return Constants.PARENT.equals(keyword);
+    }
+
+    public boolean isReturnKeyword()
+    {
+        return Constants.RETURN.equals(keyword);
     }
 
     public boolean isScheduledKeyword()

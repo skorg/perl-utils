@@ -33,6 +33,10 @@ public final class Constants
     public static final String PACKAGE = "package";
     public static final String PARENT = "parent";
 
+    public static final char POD_START_C = '=';
+    
+    public static final String RETURN = "return";
+    
     public static final char SCALAR_C = '$';
     public static final String SCALAR_S = "$";
 
@@ -52,6 +56,8 @@ public final class Constants
 
     public static final String[] LOOP = { FOR, FOREACH, UNTIL, WHILE };
 
+    public static final String[] QUOTE_AND_REGEXP = { "q", "qq", "qx", "qw", "tr", "y", "qr", "m", "/", "s", "?" };
+    
     public static final String[] SCHEDULED = { "BEGIN", "CHECK", "INIT", "END", "UNITCHECK" };
 
     public static final String[] VARIABLE = { "my", "local", "our", "state" };

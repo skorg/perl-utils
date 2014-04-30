@@ -124,4 +124,25 @@ public class Language
     {
         return Constants.SCALAR_S.equals(s);
     }
+    
+    public static Keyword getPackageKeyword()
+    {
+        return Keyword.getKeyword(Constants.PACKAGE);
+    }
+
+    public static Keyword getReturnKeyword()
+    {
+        return Keyword.getKeyword(Constants.RETURN);
+    }
+    
+    public static Keyword getSubKeyword()
+    {
+        return Keyword.getKeyword(Constants.SUB);
+    }
+    
+    public static char getPodStartChar()
+    {
+        return Constants.POD_START_C;
+    }
+
 }
