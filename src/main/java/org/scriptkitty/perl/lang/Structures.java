@@ -2,8 +2,6 @@ package org.scriptkitty.perl.lang;
 
 public class Structures
 {
-    //~ Methods
-
     /**
      * does the string represent a closing brace?
      *

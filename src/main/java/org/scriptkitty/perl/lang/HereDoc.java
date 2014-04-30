@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 
 public class HereDoc
 {
-    //~ Static fields/initializers
-
     /** word pattern <code>/\s*`(.*)`$/</code> */
     private static final Pattern B_QUOTE = Pattern.compile("\\s*`(.*)`$");
 
@@ -26,8 +24,6 @@ public class HereDoc
 
     /** word pattern <code>/^(\w+)$/</code> */
     private static final Pattern WORD = Pattern.compile("^(\\w+)$");
-
-    //~ Methods
 
     public static String getIdentifier(String str)
     {
@@ -116,8 +112,6 @@ public class HereDoc
 
         return null;
     }
-
-    //~ Inner Interfaces
 
     public interface TerminatorMode
     {

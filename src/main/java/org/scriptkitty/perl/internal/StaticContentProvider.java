@@ -25,18 +25,12 @@ import org.slf4j.LoggerFactory;
 
 abstract class StaticContentProvider<T>
 {
-    //~ Static fields/initializers
-
     private static final boolean logErrors = Boolean.parseBoolean(
         System.getProperty("org.scriptkitty.perl.internal.logUnmarshallErrors", Boolean.FALSE.toString()));
 
     private static final Logger logger = LoggerFactory.getLogger(StaticContentProvider.class);
 
-    //~ Instance fields
-
     private Map<String, T> contentMap;
-
-    //~ Constructors
 
     StaticContentProvider(String baseName) throws InstantiationException
     {
@@ -58,8 +52,6 @@ abstract class StaticContentProvider<T>
             throw new InstantiationError(e.getMessage());
         }
     }
-
-    //~ Methods
 
     protected abstract Class<T> getContentClass();
 
@@ -113,8 +105,6 @@ abstract class StaticContentProvider<T>
     {
         return contentMap.keySet();
     }
-
-    //~ Inner Classes
 
     private static class Wrapper
     {

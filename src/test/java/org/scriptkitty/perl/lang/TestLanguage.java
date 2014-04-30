@@ -8,8 +8,6 @@ import org.junit.Test;
 
 public class TestLanguage
 {
-    //~ Methods
-
     @Test public void testQualifiedString()
     {
         assertTrue(Language.isQualified("Test::"));

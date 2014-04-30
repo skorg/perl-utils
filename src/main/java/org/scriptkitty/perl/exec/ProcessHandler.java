@@ -13,8 +13,6 @@ import java.util.List;
 
 public final class ProcessHandler
 {
-    //~ Instance fields
-
     private boolean rethrow;
 
     private final Object lock = new Object();
@@ -23,15 +21,11 @@ public final class ProcessHandler
 
     private String stdin;
 
-    //~ Constructors
-
     private ProcessHandler(Process process, String stdin, boolean rethrow)
     {
         this.process = process;
         this.stdin = stdin;
     }
-
-    //~ Methods
 
     public static ProcessHandler getInstance(Process process, String stdin)
     {
@@ -138,8 +132,6 @@ public final class ProcessHandler
             closeWriter(stdinWriter);
         }
     }
-
-    //~ Inner Classes
 
     public static final class ProcessResult
     {

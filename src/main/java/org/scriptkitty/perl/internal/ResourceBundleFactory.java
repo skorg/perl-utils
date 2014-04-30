@@ -12,21 +12,15 @@ import org.slf4j.LoggerFactory;
 
 public class ResourceBundleFactory extends java.util.ResourceBundle.Control
 {
-    //~ Static fields/initializers
-
     private static String BUNDLED_STATIC = "org.scriptkitty.perl.internal.StaticContentManager";
 
     private static Logger logger = LoggerFactory.getLogger(ResourceBundleFactory.class);
 
     private static ResourceBundleFactory self = new ResourceBundleFactory();
 
-    //~ Constructors
-
     private ResourceBundleFactory()
     {
     }
-
-    //~ Methods
 
     public static java.util.ResourceBundle getBundle(String bundle)
     {
@@ -83,8 +77,6 @@ public class ResourceBundleFactory extends java.util.ResourceBundle.Control
 
 //        return null;
     }
-
-    //~ Inner Classes
 
     private class StaticBundleDelegate extends java.util.ResourceBundle
     {

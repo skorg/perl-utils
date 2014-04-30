@@ -2,8 +2,6 @@ package org.scriptkitty.perl.internal;
 
 public final class Constants
 {
-    //~ Static fields/initializers
-
     public static final char AMP_C = '&';
     public static final String AMP_S = "&";
 

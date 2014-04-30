@@ -5,8 +5,6 @@ import org.scriptkitty.perl.internal.Constants;
 
 public class Language
 {
-    //~ Methods
-
     /**
      * does the specified character represent the ampersand sigil (<code>&</code>)?
      *
@@ -126,5 +124,4 @@ public class Language
     {
         return Constants.SCALAR_S.equals(s);
     }
-
 }

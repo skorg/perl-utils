@@ -9,8 +9,6 @@ import org.junit.Test;
 
 public class TestKeywords
 {
-    //~ Methods
-
     @Test public void testNullKeyword()
     {
         Keyword unknown = Keyword.getKeyword("foo");
