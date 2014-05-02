@@ -6,18 +6,18 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.scriptkitty</groupId>
-    <artifactId>skorg-build</artifactId>
-    <version>4-SNAPSHOT</version>
+  <parent> 
+    <groupId>org.scriptkitty</groupId> 
+    <artifactId>skorg-build</artifactId> 
+    <version>5-SNAPSHOT</version> 
     <relativePath>../skorg-build</relativePath>
   </parent>
 
-  <artifactId>perl-utils</artifactId>
+  <artifactId>org.scriptkitty.perl-utils</artifactId>
   <version>2.0.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>eclipse-plugin</packaging>
 
-  <name>perl-utils</name>
+  <name>org.scriptkitty</name>
   <url>http://scriptkitty.org</url>
   <description>collection of utilities for interacting with perl in java</description>
 
@@ -35,5 +35,5 @@
     <system>github</system>
     <url>https://github.com/skorg/perl-utils/issues</url>
   </issueManagement>
-    
+
 </project>

@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.errorwarn;
+package org.scriptkitty.perl.internal;
 
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import javax.xml.bind.annotation.XmlElement;
 
 
-abstract class AbstractErrorOrWarn
+public abstract class AbstractErrorOrWarn
 {
     protected static final String MSG = "No explanation available for this message";
 
@@ -34,6 +34,7 @@ abstract class AbstractErrorOrWarn
     {
         for (String key : bundle.keySet())
         {
+            @SuppressWarnings("unchecked")
             T eow = (T) bundle.getObject(key);
             if (eow.matches(line))
             {

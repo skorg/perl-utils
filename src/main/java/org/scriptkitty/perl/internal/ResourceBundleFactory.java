@@ -60,6 +60,7 @@ public class ResourceBundleFactory extends java.util.ResourceBundle.Control
     {
         try
         {
+            @SuppressWarnings("unchecked")
             Class<IContentManager> clazz = (Class<IContentManager>) loader.loadClass(className);
             IContentManager manager = clazz.newInstance();
 

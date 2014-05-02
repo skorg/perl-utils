@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.lang;
+package org.scriptkitty.perl.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import javax.xml.bind.annotation.XmlElement;
 
 
-abstract class AbstractKeyOrSym
+public abstract class AbstractKeyOrSym
 {
     @XmlElement protected final String keyword;
 
@@ -34,6 +34,7 @@ abstract class AbstractKeyOrSym
 
         while (keys.hasMoreElements())
         {
+            @SuppressWarnings("unchecked")
             T object = (T) bundle.getObject(keys.nextElement());
             if (callback.isWanted(object))
             {
@@ -44,6 +45,7 @@ abstract class AbstractKeyOrSym
         return found;
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T extends AbstractKeyOrSym> T get(String keyword, ResourceBundle bundle, T unknown)
     {
         if (!bundle.containsKey(keyword))

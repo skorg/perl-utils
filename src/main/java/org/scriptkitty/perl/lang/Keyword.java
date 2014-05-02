@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scriptkitty.perl.internal.AbstractKeyOrSym;
 import org.scriptkitty.perl.internal.Constants;
 import org.scriptkitty.perl.internal.ResourceBundleFactory;
 
