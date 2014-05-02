@@ -1,4 +1,4 @@
-package org.scriptkitty.perl.errrorwarn;
+package org.scriptkitty.perl.errorwarn;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
