@@ -1,7 +1,7 @@
 perl-utils 
 ==========
 
-[![Build Status](https://scriptkitty.ci.cloudbees.com/job/perl-utils/badge/icon)](https://scriptkitty.ci.cloudbees.com/job/perl-utils/)
+[![Build Status](https://scriptkitty.ci.cloudbees.com/buildStatus/icon?job=perl-utils)](https://scriptkitty.ci.cloudbees.com/job/perl-utils/)
 
 set of perl language utilities - originially part of the [perlipse](https://github.com/skorg/perlipse) project
 
